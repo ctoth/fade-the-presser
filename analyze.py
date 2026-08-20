@@ -25,7 +25,7 @@ from pathlib import Path
 from typing import List, Literal
 
 import anthropic
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 MODEL = "claude-opus-5"
 INDEX = Path(__file__).parent / "index.html"
@@ -37,8 +37,8 @@ DATA_RE = re.compile(
 
 
 class Claim(BaseModel):
-    topic: str            # short label, e.g. "Data dependence"
-    question: str         # the question the claim pair answers
+    topic: str = Field(description="Very short label, 1-3 words, e.g. 'Data dependence', 'The pause'")
+    question: str = Field(description="The question the claim pair answers, under 10 words")
     presser_quote: str    # condensed verbatim quote from the Chair
     presser_gist: str     # one-line reading of the Chair's position
     minutes_quote: str    # condensed verbatim quote from the minutes
