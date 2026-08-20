@@ -1,0 +1,218 @@
+<title>Fade the Presser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#F3F4EE; --card:#FBFBF7; --ink:#17211C; --muted:#5A6A60;
+  --line:#D4D9CE; --green:#1E5C45; --green-soft:#E3EBE2;
+  --red:#A63A2B; --red-soft:#F2E4E0; --amber:#8A6A1F; --amber-soft:#F0EAD8;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono","Consolas","SF Mono",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1512; --card:#141C17; --ink:#E6EAE2; --muted:#8FA096;
+    --line:#26312A; --green:#63A985; --green-soft:#16241D;
+    --red:#E07B60; --red-soft:#2A1913; --amber:#C9A64E; --amber-soft:#251F10;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1512; --card:#141C17; --ink:#E6EAE2; --muted:#8FA096;
+  --line:#26312A; --green:#63A985; --green-soft:#16241D;
+  --red:#E07B60; --red-soft:#2A1913; --amber:#C9A64E; --amber-soft:#251F10;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--serif); font-size:17px; line-height:1.55;
+  font-optical-sizing:auto;
+}
+a{color:var(--green)}
+.wrap{max-width:960px; margin:0 auto; padding:0 24px 96px}
+.mono{font-family:var(--mono)}
+
+/* ---------- masthead ---------- */
+header{border-bottom:3px double var(--ink); padding:40px 0 28px}
+.eyebrow{font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap}
+h1{font-size:clamp(44px,8vw,84px); line-height:.95; margin:.25em 0 .15em; font-weight:500; letter-spacing:-.01em; text-wrap:balance}
+h1 em{font-style:italic; color:var(--red)}
+.dek{max-width:34em; font-size:19px; color:var(--muted); margin:0; text-wrap:pretty}
+.dek strong{color:var(--ink); font-weight:600}
+
+/* ---------- basis gauge ---------- */
+.gauge{display:grid; grid-template-columns:auto 1fr; gap:8px 40px; align-items:end;
+  border-bottom:1px solid var(--line); padding:30px 0}
+.gauge .num{font-family:var(--mono); font-size:clamp(56px,9vw,96px); line-height:.9; font-weight:600; color:var(--red); font-variant-numeric:tabular-nums}
+.gauge .num small{font-size:.32em; font-weight:500; color:var(--muted); letter-spacing:.08em}
+.gauge-side{padding-bottom:8px}
+.glabel{font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:6px}
+.gnote{font-size:15px; color:var(--muted); max-width:30em; margin:8px 0 0}
+.pill{display:inline-block; font-family:var(--mono); font-size:11px; letter-spacing:.14em; padding:4px 10px 3px; border-radius:2px; text-transform:uppercase; font-weight:600}
+.pill.wide{background:var(--red-soft); color:var(--red); border:1px solid var(--red)}
+.pill.moderate{background:var(--amber-soft); color:var(--amber); border:1px solid var(--amber)}
+.pill.aligned{background:var(--green-soft); color:var(--green); border:1px solid var(--green)}
+.pill.pending{background:transparent; color:var(--muted); border:1px dashed var(--muted)}
+
+/* ---------- meeting ---------- */
+.meeting{border-bottom:1px solid var(--line); padding:44px 0}
+.m-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 24px; margin-bottom:6px}
+.m-head h2{font-size:32px; margin:0; font-weight:600}
+.m-facts{font-family:var(--mono); font-size:12.5px; color:var(--muted); display:flex; flex-wrap:wrap; gap:6px 22px; margin:10px 0 4px; padding:0; list-style:none}
+.m-facts b{color:var(--ink); font-weight:600}
+.m-sum{max-width:40em; color:var(--muted); font-size:16px; margin:10px 0 0}
+
+/* claim ledger */
+.claim{margin-top:34px}
+.c-top{display:flex; align-items:baseline; justify-content:space-between; gap:16px; border-top:1px solid var(--ink); padding-top:10px}
+.c-topic{font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted)}
+.c-q{font-size:21px; font-weight:600; margin:2px 0 14px; text-wrap:balance}
+.score{font-family:var(--mono); font-size:13px; font-weight:600; white-space:nowrap; font-variant-numeric:tabular-nums; color:var(--ink)}
+.score .bar{display:inline-block; width:72px; height:6px; background:var(--line); border-radius:3px; margin-right:8px; vertical-align:2px; overflow:hidden}
+.score .bar i{display:block; height:100%; background:var(--red)}
+.cols{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line)}
+.col{background:var(--card); padding:18px 20px}
+.src{font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; font-weight:600; margin-bottom:10px}
+.col.presser .src{color:var(--red)} .col.minutes .src{color:var(--green)}
+blockquote{margin:0 0 10px; font-size:16.5px; font-style:italic; text-wrap:pretty}
+blockquote::before{content:"\201C"} blockquote::after{content:"\201D"}
+.gist{font-size:14px; color:var(--muted); margin:0}
+.c-note{font-size:14.5px; color:var(--muted); margin:12px 2px 0; max-width:46em}
+.c-note b{color:var(--ink)}
+@media (max-width:640px){ .cols{grid-template-columns:1fr} .gauge{grid-template-columns:1fr} }
+
+/* pending */
+.meeting.pending-m .m-head h2{color:var(--muted)}
+.pending-box{border:1px dashed var(--muted); color:var(--muted); padding:22px 24px; font-family:var(--mono); font-size:13.5px; margin-top:14px}
+
+/* ---------- method ---------- */
+.method{padding:48px 0 0}
+.method h2{font-size:28px; margin:0 0 8px}
+.steps{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin:22px 0}
+.step{background:var(--card); padding:18px 20px}
+.step .k{font-family:var(--mono); font-size:11px; letter-spacing:.16em; color:var(--green); font-weight:600; text-transform:uppercase}
+.step h3{font-size:17px; margin:6px 0}
+.step p{font-size:14px; color:var(--muted); margin:0}
+pre.cmd{background:var(--card); border:1px solid var(--line); color:var(--ink); padding:14px 18px; overflow-x:auto; font-family:var(--mono); font-size:13px; margin:0}
+
+footer{margin-top:64px; border-top:3px double var(--ink); padding-top:18px; font-size:14px; color:var(--muted)}
+footer .mono{font-size:11px; letter-spacing:.14em; text-transform:uppercase}
+@media (max-width:640px){ .steps{grid-template-columns:1fr} }
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow"><span>FOMC Communication Surveillance</span><span>Warsh Fed &middot; Meeting-by-Meeting</span></div>
+  <h1>Read the Minutes.<br><em>Fade the Presser.</em></h1>
+  <p class="dek">Every cycle, the Chair explains the decision on decision day &mdash; and the Committee corrects the record three weeks later. This ledger prices the gap, meeting by meeting, <strong>always and forever, as long as we have this guy.</strong></p>
+</header>
+
+<section class="gauge" id="gauge">
+  <div class="num" id="g-num">&mdash; <small>BP</small></div>
+  <div class="gauge-side">
+    <div class="glabel">Presser&ndash;Minutes Basis &middot; latest scored meeting</div>
+    <span class="pill wide" id="g-pill">&mdash;</span>
+    <p class="gnote" id="g-note"></p>
+  </div>
+</section>
+
+<main id="meetings"></main>
+
+<section class="method">
+  <h2>How the ledger updates itself</h2>
+  <p class="m-sum">It takes seven votes to change policy; the Chair has one. So each cycle, a pipeline reads both documents and prices the difference &mdash; no pundit required.</p>
+  <div class="steps">
+    <div class="step"><span class="k">T+0 &middot; Decision Day</span><h3>Capture the presser</h3><p>Statement + press conference transcript, as delivered from the podium.</p></div>
+    <div class="step"><span class="k">T+21 &middot; Minutes Day</span><h3>Capture the record</h3><p>The FOMC minutes &mdash; the Committee&rsquo;s own account of why it did what it did.</p></div>
+    <div class="step"><span class="k">T+21 &middot; Same Hour</span><h3>Price the gap</h3><p>Claude reads both, extracts claim pairs, scores each divergence, and writes the meeting into this page.</p></div>
+  </div>
+  <pre class="cmd">$ python analyze.py --presser transcripts/2026-09-presser.txt --minutes transcripts/2026-09-minutes.txt
+&rarr; meeting scored &middot; index.html updated &middot; basis recalculated</pre>
+</section>
+
+<footer>
+  <p><span class="mono">Not investment advice &middot; Not affiliated with the Federal Reserve</span></p>
+  <p>Premise and July 2026 evidence drawn from Claudia Sahm&rsquo;s <a href="https://stayathomemacro.substack.com/">Stay-At-Home Macro</a>, &ldquo;Read the Minutes, Fade the Presser&rdquo; (Aug&nbsp;20,&nbsp;2026). Quotes condensed. Basis points are rhetorical, not tradable &mdash; mostly.</p>
+  <p>Tracking since meeting two. Scheduled meetings remaining: <span class="mono">&infin;</span>.</p>
+</footer>
+</div>
+
+<script type="application/json" id="meeting-data">
+{"meetings":[
+{"id":"2026-09","label":"September 2026 FOMC","date":"Sept 16–17, 2026","status":"pending",
+ "summary":"Markets price a 25 bp hike as fully live. The presser lands T+0; the minutes land T+21. The ledger will do the rest."},
+{"id":"2026-07","label":"July 2026 FOMC","date":"July 28–29, 2026","status":"scored",
+ "decision":"HOLD","rate":"3.50–3.75%","dissents":"3 (hawkish — favored a hike)","inflation":"PCE ≈ 3.7%, 5+ yrs above target",
+ "basis":80,"verdict":"WIDE",
+ "summary":"Warsh’s second meeting as Chair. Per the minutes, the Committee held to gather information before September, saw inflation risks skewed to the upside, and many members were ready to hike if inflation doesn’t decline. The Chair told a different story on all four counts below.",
+ "claims":[
+ {"topic":"Data dependence","question":"Did the cool June CPI print matter?","score":85,
+  "presser_quote":"In two words, not much — not much… I also don’t want you to leave the misimpression that we’re sort of breathlessly waiting for that.",
+  "presser_gist":"Downplays the data; warns against ‘the data and the dependence.’",
+  "minutes_quote":"Most participants anticipated that inflation would step down over the rest of the year… information arriving before September could provide more clarity.",
+  "minutes_gist":"The June print was the first evidence for the hold thesis. Waiting for data WAS the rationale.",
+  "note":"The FT’s question was right; the Chair’s answer wasn’t."},
+ {"topic":"The pause","question":"Was the hold a pause?","score":90,
+  "presser_quote":"I wouldn’t characterize what we did as anything like a pause… a rigorous review of the economic situation… the beginning of the story, not the end of the story.",
+  "presser_gist":"Rejects the premise; offers ‘rigorous review’ instead.",
+  "minutes_quote":"The Committee decided to maintain the target range for the federal funds rate at 3-1/2 to 3-3/4 percent… information could provide more clarity.",
+  "minutes_gist":"Held rates, waiting for clarity. That is the definition of a pause.",
+  "note":"The statement’s own ‘just the facts’ say <b>pause</b>."},
+ {"topic":"Markets as policy","question":"Did higher market rates do the Fed’s job?","score":80,
+  "presser_quote":"Rates are higher today than they were 42 days ago… that has provided us some comfort that we’ve got the ability and capability to deliver.",
+  "presser_gist":"Returns to the Treasury curve in three separate answers as quasi-justification for the hold.",
+  "minutes_quote":"Various participants suggested that financial conditions had tightened… partly a reflection of… market expectations that the Committee would adopt a more restrictive policy stance before long.",
+  "minutes_gist":"‘Various’ ≠ consensus — and even they read it as markets pricing a hike, not replacing one. The desk: 25 bp fully priced by September.",
+  "note":"Markets weren’t doing the Fed’s job. They were <b>expecting the Fed to do its job</b> — and cut September pricing as Warsh spoke."},
+ {"topic":"Reaction function","question":"What makes this Fed move?","score":65,
+  "presser_quote":"Any central banker, when he or she sees underlying inflation moving higher, is more inclined to tighten policy… That’s my reaction function.",
+  "presser_gist":"A one-man framework: direction of inflation, up or down.",
+  "minutes_quote":"Many participants assessed that policy tightening would likely be necessary if inflation did not decline.",
+  "minutes_gist":"The Committee’s trigger isn’t inflation rising — it’s inflation failing to fall to 2%.",
+  "note":"It takes seven votes. Warsh has <b>one</b>. Heading into September, follow the Committee’s framing."}
+]}
+]}
+</script>
+
+<script>
+(function(){
+  var data = JSON.parse(document.getElementById('meeting-data').textContent);
+  var root = document.getElementById('meetings');
+  var latest = null;
+
+  data.meetings.forEach(function(m){
+    var sec = document.createElement('section');
+    sec.className = 'meeting' + (m.status==='pending' ? ' pending-m' : '');
+    var h = '<div class="m-head"><h2>'+m.label+'</h2><span class="mono" style="font-size:12.5px;color:var(--muted)">'+m.date+'</span>';
+    if(m.status==='scored'){
+      if(!latest) latest = m;
+      h += '<span class="pill '+m.verdict.toLowerCase()+'">'+m.verdict+' &middot; '+m.basis+' bp</span></div>';
+      h += '<ul class="m-facts"><li>DECISION <b>'+m.decision+'</b></li><li>TARGET <b>'+m.rate+'</b></li><li>DISSENTS <b>'+m.dissents+'</b></li><li>INFLATION <b>'+m.inflation+'</b></li></ul>';
+      h += '<p class="m-sum">'+m.summary+'</p>';
+      m.claims.forEach(function(c){
+        h += '<div class="claim"><div class="c-top"><span class="c-topic">'+c.topic+'</span>'
+          + '<span class="score"><span class="bar"><i style="width:'+c.score+'%"></i></span>+'+c.score+' bp</span></div>'
+          + '<div class="c-q">'+c.question+'</div>'
+          + '<div class="cols">'
+          + '<div class="col presser"><div class="src">The Presser &mdash; Chair Warsh</div><blockquote>'+c.presser_quote+'</blockquote><p class="gist">'+c.presser_gist+'</p></div>'
+          + '<div class="col minutes"><div class="src">The Minutes &mdash; The Committee</div><blockquote>'+c.minutes_quote+'</blockquote><p class="gist">'+c.minutes_gist+'</p></div>'
+          + '</div><p class="c-note">'+c.note+'</p></div>';
+      });
+    } else {
+      h += '<span class="pill pending">AWAITING DATA</span></div>';
+      h += '<div class="pending-box">STATUS: presser T+0 &rarr; minutes T+21 &rarr; basis T+21.<br>'+m.summary+'</div>';
+    }
+    sec.innerHTML = h;
+    root.appendChild(sec);
+  });
+
+  if(latest){
+    document.getElementById('g-num').innerHTML = latest.basis + ' <small>BP</small>';
+    var pill = document.getElementById('g-pill');
+    pill.textContent = latest.verdict + ' — ' + latest.label;
+    pill.className = 'pill ' + latest.verdict.toLowerCase();
+    document.getElementById('g-note').textContent =
+      'Average divergence between the Chair’s account and the Committee’s record across '
+      + latest.claims.length + ' scored claims. 0 bp = the Chair speaks for the Committee. This is not 0 bp.';
+  }
+})();
+</script>
