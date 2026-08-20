@@ -27,7 +27,7 @@ from html.parser import HTMLParser
 import requests
 from pypdf import PdfReader
 
-from analyze import DATA_RE, INDEX, analyze, inject
+from analyze import DATA_RE, INDEX, score_meeting, inject
 
 FED = "https://www.federalreserve.gov"
 CALENDAR = f"{FED}/monetarypolicy/fomccalendars.htm"
@@ -65,8 +65,19 @@ def html_to_text(html: str) -> str:
     return "\n".join(p.parts)
 
 
+# Running header the Fed stamps on every transcript page, e.g.
+# "July 29, 2026 Chairman Warsh's Press Conference FINAL Page 15 of 21".
+# pypdf interleaves it mid-sentence at page breaks, which would break quote
+# verification, so strip it wherever it appears.
+RUNNING_HEADER = re.compile(
+    r"[A-Z][a-z]+ \d{1,2}, \d{4}\s+Chair(?:man|woman)?\s+[^\n]{0,40}?Press Conference"
+    r"\s+(?:FINAL|PRELIMINARY)?\s*Page \d+ of \d+"
+)
+
+
 def pdf_to_text(blob: bytes) -> str:
-    return "\n".join(page.extract_text() or "" for page in PdfReader(io.BytesIO(blob)).pages)
+    text = "\n".join(page.extract_text() or "" for page in PdfReader(io.BytesIO(blob)).pages)
+    return RUNNING_HEADER.sub(" ", text)
 
 
 def scored_ids() -> set[str]:
@@ -133,13 +144,12 @@ def main() -> None:
             new += 1
             continue
 
-        result = analyze(presser_text, minutes_text)
-        basis = round(sum(c.score for c in result.claims) / len(result.claims))
-        inject({
-            "id": meeting_id, "label": label, "date": date_str,
-            "status": "scored", "basis": basis, **result.model_dump(),
-        })
-        print(f"{meeting_id}: scored — basis {basis} bp ({result.verdict})")
+        print(f"{meeting_id}: scoring ({label})…")
+        result = score_meeting(presser_text, minutes_text)
+        inject({"id": meeting_id, "label": label, "date": date_str, "status": "scored", **result})
+        lo, hi = result["basis_range"]
+        print(f"{meeting_id}: scored — basis {result['basis']} bp, range {lo}-{hi} "
+              f"over {result['runs']} verified runs ({result['verdict']})")
         new += 1
 
     print("done — new meetings scored:" if new else "done — nothing new.", new or "")

@@ -55,6 +55,7 @@ h1{font-family:var(--sans); font-weight:800; font-size:clamp(30px,5.4vw,42px);
 .m-date{font-family:var(--sans); font-size:12.5px; color:var(--grey)}
 .m-basis{font-family:var(--sans); font-size:13px; font-weight:700}
 .m-basis b{font-size:20px; font-variant-numeric:tabular-nums}
+.m-range{font-weight:500; color:var(--grey); margin-left:6px}
 .m-basis.wide b{color:var(--red)} .m-basis.moderate b{color:var(--ink)} .m-basis.aligned b{color:var(--blue)}
 .m-facts{font-family:var(--sans); font-size:12.5px; color:var(--grey); display:flex;
   flex-wrap:wrap; gap:4px 20px; margin:12px 0 0; padding:0; list-style:none}
@@ -120,21 +121,28 @@ footer b{color:var(--ink)}
 <section class="method">
   <h2>Method</h2>
   <p>A rate decision needs a majority of the twelve-member Committee; the Chair holds a single vote. The unit of account here is therefore
-  the <em>claim pair</em>: the Chair&rsquo;s characterisation of the decision set against the
-  minutes&rsquo; record of it, scored 0&ndash;100 by how far the two diverge. The meeting&rsquo;s
-  basis is the mean across claims. Minutes vocabulary is weighted the way Fed-watchers weight
-  it: &ldquo;most&rdquo; is consensus, &ldquo;many&rdquo; a strong majority,
+  the <em>claim pair</em>: the Chair&rsquo;s characterisation of a point set against the
+  minutes&rsquo; record of the same point, scored 0&ndash;100 by how far the two diverge
+  (0: same substance; 50: a clear difference of emphasis or attribution; 100: contradiction).
+  Pairs are chosen for substance, not for disagreement, so an uneventful meeting can score
+  as uneventful. Minutes vocabulary is weighted the way Fed-watchers weight it:
+  &ldquo;most&rdquo; is consensus, &ldquo;many&rdquo; a strong majority,
   &ldquo;various&rdquo; is far short of either.</p>
+  <p>Each meeting is scored in five independent runs. Every quoted fragment in every run is
+  checked verbatim against the Federal Reserve source text; a run with any unverifiable quote is
+  discarded. The published basis is the mean across surviving runs, shown with its range, and
+  the pairs displayed come from the run closest to that mean. A single run is an opinion; the
+  range is the measurement.</p>
   <div class="mrow"><span class="t">T+0</span><p>Decision day. Statement and press-conference transcript captured.</p></div>
   <div class="mrow"><span class="t">T+21</span><p>Minutes published. A scheduled job fetches both documents from federalreserve.gov.</p></div>
-  <div class="mrow"><span class="t">T+21</span><p>Claude extracts claim pairs, scores each divergence, and commits the meeting to this page. No pundit in the loop.</p></div>
+  <div class="mrow"><span class="t">T+21</span><p>Five independent Claude runs extract and score claim pairs; quotes are verified against the source; the aggregate is committed to this page. No pundit in the loop.</p></div>
 </section>
 
 <footer id="foot">
   <p><b>Sources:</b> FOMC minutes and press-conference transcripts, Federal Reserve Board.
   Premise: Claudia Sahm,
   <a href="https://stayathomemacro.substack.com/">&ldquo;Read the Minutes, Fade the Presser&rdquo;</a>,
-  Stay-At-Home Macro, August 20th 2026. All quotes are drawn and condensed directly from Federal Reserve transcripts and minutes; scores and readings are machine-generated. Basis points rhetorical, not tradable.</p>
+  Stay-At-Home Macro, August 20th 2026. Every quoted fragment is machine-verified against the Federal Reserve source text before publication; scores and readings are machine-generated. Basis points rhetorical, not tradable.</p>
   <p>Not affiliated with the Federal Reserve. Not investment advice.</p>
   <p id="countdown"></p>
 </footer>
@@ -149,156 +157,6 @@ footer b{color:var(--ink)}
    "date": "Sept 16–17, 2026",
    "status": "pending",
    "summary": "Markets price a 25 bp hike as fully live. The presser lands T+0; the minutes land T+21. The ledger will do the rest."
-  },
-  {
-   "id": "2026-07",
-   "label": "July 2026 FOMC",
-   "date": "Ended Jul 29, 2026",
-   "status": "scored",
-   "basis": 64,
-   "decision": "Held the target range at 3-1/2 to 3-3/4 percent; reaffirmed ample-reserves policy",
-   "rate": "3.50-3.75%",
-   "dissents": "3 (Hammack, Kashkari, Logan — all preferred a 25 bp increase); 9-3 vote",
-   "inflation": "Total PCE 4.1% in May, estimated to step down to 3.7% in June; core PCE 3.4%, estimated 3.3%. Unemployment 4.2%.",
-   "verdict": "WIDE",
-   "summary": "Chairman Warsh's press conference and the July minutes describe two different meetings. From the podium, the story was one of a Fed that has stepped back so markets can 'play the ball, not the referee,' with higher Treasury yields read as an unfiltered verdict on real data and a validation of the new communication regime. The minutes say the opposite: nominal rates rose 'largely on expectations of higher policy rates,' partly because FOMC communications were 'perceived as more restrictive than expected,' and 'various participants' explicitly attributed the tightening to 'market expectations that the Committee would adopt a more restrictive policy stance before long.' The market was pricing the referee, not ignoring him. The bigger omission is the reaction function itself: 'many participants' recorded that 'policy tightening would likely be necessary if inflation did not decline,' 'some' doubted financial conditions were restrictive enough, and 'several' wanted a hike now — a directional bias Warsh declined to convey, offering instead a generic textbook rule and 'watchful thinking, not watchful waiting.' He also dismissed incoming data as a driver ('the historic problem with data dependence is the data and the dependence') while the minutes state that participants 'generally thought that the information that would accumulate in the intermeeting period could provide more clarity.' The Middle East conflict — which the minutes place at the center of the inflation and uncertainty discussion and which appears in the statement itself — went unmentioned in his opening framing, displaced by AI capex. And his own proposal to cut to six meetings a year, disclosed in the minutes, never surfaced at the podium. Mean score 63: WIDE.",
-   "claims": [
-    {
-     "topic": "Market signal",
-     "question": "Why did Treasury yields rise this intermeeting period?",
-     "presser_quote": "market attention centered on real data and real economic developments… Market participants are learning to play the ball, not the referee… I was comforted that markets in the intermeeting period weren't reacting to us—they weren't reacting to dots or to speeches—they appeared more than ever to be reacting to real-time events.",
-     "presser_gist": "Higher nominal and real yields reflect markets responding directly to data rather than to the Fed, vindicating the pullback from forward guidance.",
-     "minutes_quote": "nominal rates rose largely on expectations of higher policy rates… nominal Treasury yields moved up somewhat, in part reflecting FOMC communications that were perceived as more restrictive than expected amid an economic outlook that was little changed… Various participants suggested that financial conditions had tightened over the intermeeting period and that this development was partly a reflection of strong economic growth and market expectations that the Committee would adopt a more restrictive policy stance before long.",
-     "minutes_gist": "The rate rise was driven by expectations of Fed tightening and by Fed communications read as hawkish — markets were pricing the Committee, not looking past it.",
-     "score": 82,
-     "note": "The Chair's central narrative — that markets have stopped reacting to the Fed — is directly contradicted by the Desk's account and by 'various participants.' The market priced a one-in-three chance of a July hike and a full 25 bp by September; that is a referee trade, not a ball trade."
-    },
-    {
-     "topic": "Tightening bias",
-     "question": "Does the Committee lean toward hiking next?",
-     "presser_quote": "Any central banker… when he or she sees underlying inflation moving higher—he or she is more inclined to tighten policy… That's my reaction function… my own judgment is this is a period of watchful thinking, not watchful waiting.",
-     "presser_gist": "Offers a generic, symmetric textbook rule as his personal reaction function and declines to signal any directional lean.",
-     "minutes_quote": "Many participants assessed that policy tightening would likely be necessary if inflation did not decline. Some participants commented that financial conditions might not currently be sufficiently restrictive to facilitate a return of inflation to 2 percent… A few of the participants who favored raising the target range… judged that doing so would likely help forestall the need for a steeper and potentially more costly sequence of tightening moves at a later stage.",
-     "minutes_gist": "A strong majority recorded a conditional tightening bias, with some judging current conditions insufficiently restrictive.",
-     "score": 76,
-     "note": "'Many' is a strong majority and is a Committee reaction function, not a personal one. Withholding it while claiming markets get an 'unfiltered' signal is the core fade: the Committee's own lean was the most decision-relevant fact of the meeting and it was left out."
-    },
-    {
-     "topic": "Data dependence",
-     "question": "How much did incoming data matter to the decision?",
-     "presser_quote": "the historic problem with data dependence is the data and the dependence. We are not relying on any one individual piece of data… I also don't want you to leave the misimpression that we're sort of breathlessly waiting that.",
-     "presser_gist": "Downplays incoming data; the Committee is not waiting on prints and did not lean on the cool June CPI.",
-     "minutes_quote": "Participants generally thought that the information that would accumulate in the intermeeting period could provide more clarity, and correspondingly reduce uncertainty, about the inflation outlook… participants reiterated that their interpretations of incoming information would be a key component of their deliberations.",
-     "minutes_gist": "A general consensus framed the hold as waiting for accumulating information to clarify the inflation outlook.",
-     "score": 66,
-     "note": "'Participants generally' is near-consensus. The minutes make the hold explicitly informational — a wait for clarity — which is data dependence by another name and is the very framing the Chair rejected."
-    },
-    {
-     "topic": "Middle East shock",
-     "question": "What is clouding the inflation outlook?",
-     "presser_quote": "The most striking feature of the economy is the strong growth of business investment. The surge in high-tech capex has been remarkable… The business capex boom, for example, is driving up prices of memory and logic chips and associated AI infrastructure.",
-     "presser_gist": "Frames AI capex as the dominant economic development and the leading source of shock-driven price increases; no mention of the Middle East conflict.",
-     "minutes_quote": "Many participants noted that the recent re-escalation of the conflict in the Middle East significantly clouded the inflation outlook. These participants remarked that a protracted conflict could prolong supply chain challenges and could put upward pressures on inflation.",
-     "minutes_gist": "The conflict was the leading cited source of inflation uncertainty for a strong majority, and appears in the statement itself.",
-     "score": 58,
-     "note": "The Committee's own statement cites 'elevated uncertainty that owes, in part, to the conflict in the Middle East,' and oil drove both the June energy-led step-down and the upside risk. The Chair's opening substitutes his preferred AI narrative for the Committee's stated central concern."
-    },
-    {
-     "topic": "Meeting schedule",
-     "question": "Was any change to Fed practice proposed?",
-     "presser_quote": "There is a tendency, especially with the proliferation of meetings and press conferences, to get caught up in the myopic… we meet in seven or eight weeks.",
-     "presser_gist": "Gestures at too many meetings but discloses no proposal; presents the calendar as settled.",
-     "minutes_quote": "The Chairman observed that six scheduled meetings per year, held roughly every two months, would allow more information to accumulate between meetings than under current practice. The Chairman asked for input from the Committee on these issues, but no decisions regarding possible changes in the meeting schedule were made.",
-     "minutes_gist": "The Chairman actively canvassed the Committee on cutting to six meetings a year; no decision was taken.",
-     "score": 52,
-     "note": "A live institutional proposal from the Chair, put to the Committee in the room, went undisclosed at the podium — including to a questioner asking directly about the value of press conferences. Notably, the stated rationale (letting more information accumulate) sits awkwardly with his dismissal of data dependence."
-    },
-    {
-     "topic": "Committee unity",
-     "question": "How divided was the Committee?",
-     "presser_quote": "there was a large majority support for the decision that we made in the room… The way I heard it over the last two days was overwhelming agreement on objectives and authority and commitment… that's not the feeling I felt the last couple of days.",
-     "presser_gist": "Three dissents notwithstanding, the room was broadly unified and talk of a divided Fed is wrong.",
-     "minutes_quote": "most participants supported maintaining the current target range… Several participants favored an increase of 25 basis points in the target range at this meeting. These participants remarked that price pressures appeared broad based and judged that the Committee should adopt a more restrictive policy stance.",
-     "minutes_gist": "'Most' — not near-unanimous — backed the hold, with a meaningful bloc favoring an immediate hike on broad-based price pressures.",
-     "score": 48,
-     "note": "'Most' plus 'several' dissenting is a real split, and the dissenters' rationale (broad-based price pressures) contests the Chair's framing that shock-driven increases may not signal a broader inflationary dynamic. 'Overwhelming agreement' overstates the record."
-    }
-   ]
-  },
-  {
-   "id": "2026-06",
-   "label": "June 2026 FOMC",
-   "date": "Ended Jun 17, 2026",
-   "status": "scored",
-   "basis": 63,
-   "decision": "At the June 16-17, 2026 meeting, the FOMC held the target range for the federal funds rate at 3-1/2 to 3-3/4 percent, reaffirmed the ample-reserves policy, and issued a markedly shortened postmeeting statement that dropped the prior easing-bias language and added the pledge that \"The Committee will deliver price stability.\" Chairman Warsh, in his first meeting, also announced five task forces (communications, balance sheet, data, productivity/jobs, inflation frameworks) and declined to submit an SEP dot of his own.",
-   "rate": "3-1/2 to 3-3/4 percent (unchanged); IORB 3.65 percent; primary credit rate 3.75 percent",
-   "dissents": "None. The statement was approved 12-0 (Warsh, Williams, Barr, Bowman, Cook, Hammack, Jefferson, Kashkari, Logan, Paulson, Powell, Waller). However, the minutes record that \"a few participants\" saw a case for raising the target range but supported the hold, and participants split roughly evenly on the appropriate year-end rate.",
-   "inflation": "Total PCE inflation was 3.8 percent in April and core 3.3 percent, with staff estimating total PCE at 4.1 percent and core at 3.4 percent in May. Risks were judged tilted to the upside; longer-term expectations remained anchored. SEP medians: total PCE 3.6 percent in 2026 and 2.3 percent in 2027; unemployment about 4.3 percent; median funds rate 3.8 percent at end-2026.",
-   "verdict": "WIDE",
-   "summary": "Warsh's podium account and the Committee's record materially disagree on the direction of the reaction function. The minutes show a Committee with a live, conditional hawkish bias: it deliberately deleted easing-bias language, a few participants argued a hike was already warranted, most participants sketched scenarios in which \"some policy firming would likely be warranted,\" many put the appropriate year-end rate above the current range, and several judged policy not restrictive at all. From the podium Warsh flatly denied anyone had voiced a case for tightening, described the deliberations as one proposal with \"quite limited\" discussion and no disagreement, recast the deletion of forward guidance as a communications-philosophy question for a task force rather than the removal of an easing tilt, and characterized colleagues' dots as low-conviction pencil marks. He also embraced strong productivity-led growth as something to \"embrace,\" whereas most participants flagged above-potential growth as a source of more persistent inflation. On the shortened statement and the fact of a unanimous hold, the accounts line up. Mean divergence 63 - WIDE.",
-   "claims": [
-    {
-     "topic": "Whether anyone on the Committee argued for tightening",
-     "question": "Nick Timiraos: if credibility requires delivering, the move would be to tighten or threaten to - why not today?",
-     "presser_quote": "That judgment you expressed was not expressed by any of the 19 people around the table.  We'll be meeting in six weeks, and we'll take up the issue again.",
-     "presser_gist": "Warsh asserts that no one at the table advanced the view that tightening was the credible move now.",
-     "minutes_quote": "A few participants commented that, in light of these developments, there was a case for raising the target range for the federal funds rate, but those participants indicated that they supported maintaining the current target range at this meeting.",
-     "minutes_gist": "A few participants explicitly made the case for a hike at this meeting, even while supporting the hold.",
-     "score": 82,
-     "note": "Direct factual contradiction. The Chair's blanket denial erases a recorded hawkish bloc; the fact that those participants still voted to hold does not make their argument unspoken."
-    },
-    {
-     "topic": "Why forward guidance was removed from the statement",
-     "question": "Why is forward guidance absent, and what does dropping it mean?",
-     "presser_quote": "Absent, also, is so-called forward guidance—which we agreed was not well suited to the current policy conjuncture. . . . Some along the Committee I think dropped it . . . because they said, at this moment in time, it doesn't feel as though providing forward guidance is right.  Others have, I'd say, different views and think as a general proposition forward guidance isn't the business we should be in.",
-     "presser_gist": "Removal is framed as a conjunctural/philosophical communications choice, with the substance handed off to the communications task force.",
-     "minutes_quote": "Most participants emphasized that they preferred not to repeat the language in the previous postmeeting statement that had suggested an easing bias regarding the likely direction of the Committee's future interest rate decisions. . . . Members also agreed that the statement would not repeat the language that had suggested an easing bias.",
-     "minutes_gist": "The Committee's stated reason was specific and directional: it no longer wanted to signal an easing bias.",
-     "score": 72,
-     "note": "The minutes describe a substantive hawkish signaling decision by 'most participants'; the Chair converts it into a neutral debate about the merits of forward guidance in general, obscuring the policy content of the change."
-    },
-    {
-     "topic": "Degree of Committee conviction and the meeting's deliberations",
-     "question": "Was a rate cut or any alternative discussed, and how much conviction lies behind the dots?",
-     "presser_quote": "There was one proposal on the table.  There was no discussion of any other proposals.  The discussion on that proposal, I would say, was quite limited.  The group was unanimous and unambiguous on it. . . . I didn't hear tons of conviction.  What I heard was the kind of humility that I think we should have.",
-     "presser_gist": "One alternative, limited discussion, unanimity, and low conviction about the path ahead.",
-     "minutes_quote": "Most participants, however, also pointed to scenarios in which . . . inflation would remain elevated . . . In such scenarios, almost all of these participants indicated that some policy firming would likely be warranted to return inflation to 2 percent. . . . Many other participants, however, assessed that the appropriate level of the federal funds rate would be above the current target range at the end of this year.",
-     "minutes_gist": "A structured scenario debate produced a conditional firming bias held by most participants, with many placing the appropriate year-end rate above the current range.",
-     "score": 70,
-     "note": "Unanimity on the hold is accurate, but 'quite limited' discussion with 'no conviction' misrepresents a recorded conditional reaction function - if inflation persists, most would firm. That is the Committee's guidance, and the Chair withheld it."
-    },
-    {
-     "topic": "Productivity-led growth and inflation",
-     "question": "Is strong AI-driven productivity growth a reason the Fed could be easier on policy?",
-     "presser_quote": "If I heard one other thing around that subject over the course of the last couple of days, what I heard was that strong productivity-led growth is not something that we fear, but something we embrace. . . . if we do our job, we can make strong growth, low prices, and strong employment mutually compatible.",
-     "presser_gist": "The Committee views strong, productivity-led growth as unambiguously welcome and non-inflationary.",
-     "minutes_quote": "Most participants remarked that growth in economic activity that exceeded that of potential output, owing in part to strong AI business investment, could contribute to more persistent inflationary pressures. . . . Some participants remarked that productivity gains associated with AI adoption would eventually reduce production costs and increase aggregate supply . . . though they noted this effect would likely take time to materialize.",
-     "minutes_gist": "Most participants saw above-potential growth as an inflation risk; only 'some' cited the eventual disinflationary supply payoff, and with a lag.",
-     "score": 60,
-     "note": "The Chair generalizes a minority-held optimistic view ('some participants') into the room's sentiment, while the consensus concern - demand running ahead of supply and sustaining inflation - goes unmentioned."
-    },
-    {
-     "topic": "How restrictive is the current stance",
-     "question": "Given strong growth, elevated inflation, and soaring equities, is the funds rate restrictive?",
-     "presser_quote": "It's uneven. . . . if I look at the housing markets as one example . . . Fed policy appears to be somewhat restrictive.  I would have a hard time managing to say those words if I were to see what's happening in financial markets, so I'd say it's uneven.",
-     "presser_gist": "The stance is characterized as unevenly restrictive - restrictive in housing, not in financial markets.",
-     "minutes_quote": "Several participants remarked that they did not see the current policy stance as restrictive, while a few other participants commented that they saw the current policy stance as slightly restrictive.",
-     "minutes_gist": "A meaningful bloc judged policy not restrictive at all; only a few called it slightly restrictive.",
-     "score": 48,
-     "note": "The 'uneven' framing is the Chair's own construct and is not in the record. The minutes' center of gravity is more hawkish - the larger group sees no restriction - which the Chair's sector-by-sector answer softens."
-    },
-    {
-     "topic": "Character of the inflation problem",
-     "question": "Is elevated inflation mainly energy and the Iran conflict, or are underlying pressures broadening?",
-     "presser_quote": "Inflation remains elevated relative to the Committee's 2 percent goal, in part reflecting supply shocks that have driven price increases in certain sectors, including energy. . . . That's what we're prepared to say about inflation . . . we do have a really important job there, and it's to make sure that those changes in oil, or beef, or eggs, or milk don't broaden in the economy.",
-     "presser_gist": "Inflation is presented as sector-specific supply shocks that the Fed must prevent from broadening in the future.",
-     "minutes_quote": "Several participants commented that price pressures had become more broad based, with a large share of goods and services—including transportation, airfares, petrochemical products, and agricultural inputs—experiencing substantial increases. . . . The majority of participants highlighted the possibility that, after several years of inflation above 2 percent, continued elevated inflation rates could begin to affect inflation expectations and wage- and price-setting decisions.",
-     "minutes_gist": "Breadth is already an observed problem for several participants, and a majority worried that persistence is starting to threaten expectations and price-setting.",
-     "score": 45,
-     "note": "The Chair speaks of broadening as a risk to be prevented; the record shows several participants already observing it and a majority flagging expectations slippage - a more advanced diagnosis than the podium conveyed."
-    }
-   ]
   }
  ]
 }
@@ -336,7 +194,9 @@ footer b{color:var(--ink)}
       '<h2 class="c-title">The Chair is not the Committee</h2>'
       + '<p class="c-sub">Presser–minutes divergence, '+latest.label+', by claim, basis points*</p>'
       + s
-      + '<p class="source">*0 = the Chair’s account matches the Committee’s record; 100 = it contradicts it. Source: ledger below</p>';
+      + '<p class="source">*0 = same substance; 100 = direct contradiction. Bars show the scoring run closest to the meeting mean'
+      + (latest.basis_range ? '; across '+latest.runs+' independent, quote-verified runs the meeting basis ranged '+latest.basis_range[0]+'–'+latest.basis_range[1]+' bp' : '')
+      + '. Source: ledger below</p>';
   }
 
   /* ---- meetings ---- */
@@ -347,7 +207,8 @@ footer b{color:var(--ink)}
     var h = '<div class="m-rule"></div><div class="m-rule"></div>'
       + '<div class="m-head"><h2>'+m.label+'</h2><span class="m-date">'+m.date+'</span>';
     if(m.status==='scored'){
-      h += '<span class="m-basis '+m.verdict.toLowerCase()+'">basis <b>'+m.basis+'</b> bp · '+m.verdict.toLowerCase()+'</span></div>';
+      var rng = m.basis_range ? '<span class="m-range">range '+m.basis_range[0]+'–'+m.basis_range[1]+', '+m.runs+' runs</span>' : '';
+      h += '<span class="m-basis '+m.verdict.toLowerCase()+'">basis <b>'+m.basis+'</b> bp · '+m.verdict.toLowerCase()+rng+'</span></div>';
       h += '<ul class="m-facts"><li>Decision <b>'+m.decision+'</b></li><li>Target <b>'+m.rate+'</b></li><li>Dissents <b>'+m.dissents+'</b></li><li>Backdrop <b>'+m.inflation+'</b></li></ul>';
       h += '<p class="m-sum">'+m.summary+'</p>';
       m.claims.forEach(function(c){
