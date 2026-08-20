@@ -1,138 +1,142 @@
 <title>Fade the Presser</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
 <style>
 :root{
-  --paper:#F3F4EE; --card:#FBFBF7; --ink:#17211C; --muted:#5A6A60;
-  --line:#D4D9CE; --green:#1E5C45; --green-soft:#E3EBE2;
-  --red:#A63A2B; --red-soft:#F2E4E0; --amber:#8A6A1F; --amber-soft:#F0EAD8;
-  --serif:"Newsreader",Georgia,"Times New Roman",serif;
-  --mono:"IBM Plex Mono","Consolas","SF Mono",monospace;
+  --paper:#FDFDFB; --ink:#141414; --grey:#758D99; --faint:#E1E5E8;
+  --rule:#141414; --red:#DB444B; --econred:#E3120B; --blue:#006BA2;
+  --redsoft:#FBECEC; --bluesoft:#EAF2F7;
+  --sans:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --serif:"Source Serif 4",Georgia,serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#0F1512; --card:#141C17; --ink:#E6EAE2; --muted:#8FA096;
-    --line:#26312A; --green:#63A985; --green-soft:#16241D;
-    --red:#E07B60; --red-soft:#2A1913; --amber:#C9A64E; --amber-soft:#251F10;
+    --paper:#111417; --ink:#E8E8E4; --grey:#8DA0AB; --faint:#2A3138;
+    --rule:#E8E8E4; --red:#E4626A; --econred:#F0453B; --blue:#4FA3D1;
+    --redsoft:#2A181A; --bluesoft:#15222B;
   }
 }
 :root[data-theme="dark"]{
-  --paper:#0F1512; --card:#141C17; --ink:#E6EAE2; --muted:#8FA096;
-  --line:#26312A; --green:#63A985; --green-soft:#16241D;
-  --red:#E07B60; --red-soft:#2A1913; --amber:#C9A64E; --amber-soft:#251F10;
+  --paper:#111417; --ink:#E8E8E4; --grey:#8DA0AB; --faint:#2A3138;
+  --rule:#E8E8E4; --red:#E4626A; --econred:#F0453B; --blue:#4FA3D1;
+  --redsoft:#2A181A; --bluesoft:#15222B;
 }
 *{box-sizing:border-box}
-body{
-  margin:0; background:var(--paper); color:var(--ink);
-  font-family:var(--serif); font-size:17px; line-height:1.55;
-  font-optical-sizing:auto;
-}
-a{color:var(--green)}
-.wrap{max-width:960px; margin:0 auto; padding:0 24px 96px}
-.mono{font-family:var(--mono)}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--serif); font-size:17px; line-height:1.5}
+.wrap{max-width:720px; margin:0 auto; padding:0 20px 80px}
+a{color:var(--blue); text-decoration-thickness:1px}
 
-/* ---------- masthead ---------- */
-header{border-bottom:3px double var(--ink); padding:40px 0 28px}
-.eyebrow{font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap}
-h1{font-size:clamp(44px,8vw,84px); line-height:.95; margin:.25em 0 .15em; font-weight:500; letter-spacing:-.01em; text-wrap:balance}
-h1 em{font-style:italic; color:var(--red)}
-.dek{max-width:34em; font-size:19px; color:var(--muted); margin:0; text-wrap:pretty}
-.dek strong{color:var(--ink); font-weight:600}
+/* ---- masthead: Economist grammar — red tab, rubric, bold sans headline ---- */
+header{padding-top:36px}
+.tab{width:44px; height:12px; background:var(--econred); margin-bottom:14px}
+.rubric{font-family:var(--sans); font-weight:700; font-size:13px; color:var(--econred);
+  letter-spacing:.01em; margin-bottom:6px}
+.rubric span{color:var(--grey); font-weight:500}
+h1{font-family:var(--sans); font-weight:800; font-size:clamp(30px,5.4vw,42px);
+  line-height:1.08; letter-spacing:-.015em; margin:0 0 12px; text-wrap:balance}
+.dek{font-size:18px; line-height:1.5; color:var(--ink); margin:0 0 8px; max-width:36em; text-wrap:pretty}
+.byline{font-family:var(--sans); font-size:12.5px; color:var(--grey); margin:14px 0 0;
+  padding-bottom:18px; border-bottom:1px solid var(--rule)}
 
-/* ---------- basis gauge ---------- */
-.gauge{display:grid; grid-template-columns:auto 1fr; gap:8px 40px; align-items:end;
-  border-bottom:1px solid var(--line); padding:30px 0}
-.gauge .num{font-family:var(--mono); font-size:clamp(56px,9vw,96px); line-height:.9; font-weight:600; color:var(--red); font-variant-numeric:tabular-nums}
-.gauge .num small{font-size:.32em; font-weight:500; color:var(--muted); letter-spacing:.08em}
-.gauge-side{padding-bottom:8px}
-.glabel{font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:6px}
-.gnote{font-size:15px; color:var(--muted); max-width:30em; margin:8px 0 0}
-.pill{display:inline-block; font-family:var(--mono); font-size:11px; letter-spacing:.14em; padding:4px 10px 3px; border-radius:2px; text-transform:uppercase; font-weight:600}
-.pill.wide{background:var(--red-soft); color:var(--red); border:1px solid var(--red)}
-.pill.moderate{background:var(--amber-soft); color:var(--amber); border:1px solid var(--amber)}
-.pill.aligned{background:var(--green-soft); color:var(--green); border:1px solid var(--green)}
-.pill.pending{background:transparent; color:var(--muted); border:1px dashed var(--muted)}
+/* ---- chart block, Economist-style ---- */
+.chart{margin:34px 0 6px}
+.c-title{font-family:var(--sans); font-weight:700; font-size:16px; margin:0}
+.c-sub{font-family:var(--sans); font-size:13px; color:var(--grey); margin:2px 0 14px}
+.chart svg{display:block; width:100%; height:auto; font-family:var(--sans)}
+.source{font-family:var(--sans); font-size:11.5px; color:var(--grey); margin-top:10px}
 
-/* ---------- meeting ---------- */
-.meeting{border-bottom:1px solid var(--line); padding:44px 0}
-.m-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 24px; margin-bottom:6px}
-.m-head h2{font-size:32px; margin:0; font-weight:600}
-.m-facts{font-family:var(--mono); font-size:12.5px; color:var(--muted); display:flex; flex-wrap:wrap; gap:6px 22px; margin:10px 0 4px; padding:0; list-style:none}
-.m-facts b{color:var(--ink); font-weight:600}
-.m-sum{max-width:40em; color:var(--muted); font-size:16px; margin:10px 0 0}
+/* ---- meetings ---- */
+.meeting{margin-top:44px}
+.m-rule{height:3px; background:var(--rule); margin-bottom:2px}
+.m-rule + .m-rule{height:1px; margin-bottom:14px}
+.m-head{display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap}
+.m-head h2{font-family:var(--sans); font-weight:800; font-size:24px; margin:0}
+.m-date{font-family:var(--sans); font-size:12.5px; color:var(--grey)}
+.m-basis{font-family:var(--sans); font-size:13px; font-weight:700}
+.m-basis b{font-size:20px; font-variant-numeric:tabular-nums}
+.m-basis.wide b{color:var(--red)} .m-basis.moderate b{color:var(--ink)} .m-basis.aligned b{color:var(--blue)}
+.m-facts{font-family:var(--sans); font-size:12.5px; color:var(--grey); display:flex;
+  flex-wrap:wrap; gap:4px 20px; margin:12px 0 0; padding:0; list-style:none}
+.m-facts b{color:var(--ink); font-weight:700}
+.m-sum{font-size:16px; color:var(--ink); margin:14px 0 0; max-width:40em}
 
-/* claim ledger */
-.claim{margin-top:34px}
-.c-top{display:flex; align-items:baseline; justify-content:space-between; gap:16px; border-top:1px solid var(--ink); padding-top:10px}
-.c-topic{font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted)}
-.c-q{font-size:21px; font-weight:600; margin:2px 0 14px; text-wrap:balance}
-.score{font-family:var(--mono); font-size:13px; font-weight:600; white-space:nowrap; font-variant-numeric:tabular-nums; color:var(--ink)}
-.score .bar{display:inline-block; width:72px; height:6px; background:var(--line); border-radius:3px; margin-right:8px; vertical-align:2px; overflow:hidden}
-.score .bar i{display:block; height:100%; background:var(--red)}
-.cols{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line)}
-.col{background:var(--card); padding:18px 20px}
-.src{font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; font-weight:600; margin-bottom:10px}
-.col.presser .src{color:var(--red)} .col.minutes .src{color:var(--green)}
-blockquote{margin:0 0 10px; font-size:16.5px; font-style:italic; text-wrap:pretty}
+/* claims */
+.claim{margin-top:30px; border-top:1px solid var(--faint); padding-top:16px}
+.k-row{display:flex; justify-content:space-between; align-items:baseline; gap:12px}
+.k-topic{font-family:var(--sans); font-weight:700; font-size:13px; text-transform:uppercase;
+  letter-spacing:.06em; color:var(--grey)}
+.k-score{font-family:var(--sans); font-size:12.5px; font-weight:700; color:var(--red);
+  font-variant-numeric:tabular-nums}
+.k-q{font-family:var(--sans); font-weight:700; font-size:18px; margin:4px 0 12px; text-wrap:balance}
+.pair{display:grid; grid-template-columns:1fr 1fr; gap:0 28px}
+.side .who{font-family:var(--sans); font-weight:700; font-size:12px; text-transform:uppercase;
+  letter-spacing:.05em; margin-bottom:6px; padding-left:9px; border-left:3px solid}
+.side.presser .who{color:var(--red); border-color:var(--red)}
+.side.minutes .who{color:var(--blue); border-color:var(--blue)}
+blockquote{margin:0 0 8px; font-size:15.5px; line-height:1.45; font-style:italic}
 blockquote::before{content:"\201C"} blockquote::after{content:"\201D"}
-.gist{font-size:14px; color:var(--muted); margin:0}
-.c-note{font-size:14.5px; color:var(--muted); margin:12px 2px 0; max-width:46em}
-.c-note b{color:var(--ink)}
-@media (max-width:640px){ .cols{grid-template-columns:1fr} .gauge{grid-template-columns:1fr} }
+.gist{font-family:var(--sans); font-size:13px; line-height:1.45; color:var(--grey); margin:0 0 14px}
+.k-note{font-size:14.5px; margin:2px 0 0; max-width:42em}
+.k-note::before{content:""; display:inline-block; width:8px; height:8px; background:var(--econred);
+  margin-right:8px; vertical-align:1px}
+.k-note b{font-weight:600}
+@media (max-width:560px){ .pair{grid-template-columns:1fr} }
 
 /* pending */
-.meeting.pending-m .m-head h2{color:var(--muted)}
-.pending-box{border:1px dashed var(--muted); color:var(--muted); padding:22px 24px; font-family:var(--mono); font-size:13.5px; margin-top:14px}
+.pending-line{font-family:var(--sans); font-size:14px; color:var(--grey); margin:12px 0 0}
+.pending-line b{color:var(--ink)}
 
-/* ---------- method ---------- */
-.method{padding:48px 0 0}
-.method h2{font-size:28px; margin:0 0 8px}
-.steps{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin:22px 0}
-.step{background:var(--card); padding:18px 20px}
-.step .k{font-family:var(--mono); font-size:11px; letter-spacing:.16em; color:var(--green); font-weight:600; text-transform:uppercase}
-.step h3{font-size:17px; margin:6px 0}
-.step p{font-size:14px; color:var(--muted); margin:0}
-pre.cmd{background:var(--card); border:1px solid var(--line); color:var(--ink); padding:14px 18px; overflow-x:auto; font-family:var(--mono); font-size:13px; margin:0}
+/* ---- method ---- */
+.method{margin-top:52px}
+.method h2{font-family:var(--sans); font-weight:800; font-size:24px; margin:0 0 10px}
+.method p{max-width:40em}
+.mrow{display:grid; grid-template-columns:88px 1fr; gap:4px 18px; font-size:15px;
+  border-top:1px solid var(--faint); padding:10px 0; max-width:40em}
+.mrow .t{font-family:var(--sans); font-weight:700; font-size:13px; color:var(--econred)}
+.mrow p{margin:0; font-size:15px}
+code{font-family:"Consolas","SF Mono",monospace; font-size:.85em; background:var(--faint); padding:1px 5px}
 
-footer{margin-top:64px; border-top:3px double var(--ink); padding-top:18px; font-size:14px; color:var(--muted)}
-footer .mono{font-size:11px; letter-spacing:.14em; text-transform:uppercase}
-@media (max-width:640px){ .steps{grid-template-columns:1fr} }
+footer{margin-top:56px; border-top:1px solid var(--rule); padding-top:12px;
+  font-family:var(--sans); font-size:12px; color:var(--grey); line-height:1.6}
+footer b{color:var(--ink)}
 </style>
 
 <div class="wrap">
 <header>
-  <div class="eyebrow"><span>FOMC Communication Surveillance</span><span>Warsh Fed &middot; Meeting-by-Meeting</span></div>
-  <h1>Read the Minutes.<br><em>Fade the Presser.</em></h1>
-  <p class="dek">Every cycle, the Chair explains the decision on decision day &mdash; and the Committee corrects the record three weeks later. This ledger prices the gap, meeting by meeting, <strong>always and forever, as long as we have this guy.</strong></p>
+  <div class="tab"></div>
+  <div class="rubric">FOMC communications <span>| The Warsh Fed</span></div>
+  <h1>Read the minutes. Fade the presser.</h1>
+  <p class="dek">The Chair explains the decision on decision day. Three weeks later the
+  Committee&rsquo;s minutes explain it differently. This ledger measures the gap after every
+  meeting &mdash; automatically, for as long as the gap exists.</p>
+  <p class="byline">Updated when minutes are published &middot; scored by machine, quarrels welcome</p>
 </header>
 
-<section class="gauge" id="gauge">
-  <div class="num" id="g-num">&mdash; <small>BP</small></div>
-  <div class="gauge-side">
-    <div class="glabel">Presser&ndash;Minutes Basis &middot; latest scored meeting</div>
-    <span class="pill wide" id="g-pill">&mdash;</span>
-    <p class="gnote" id="g-note"></p>
-  </div>
-</section>
+<section class="chart" id="chart"></section>
 
 <main id="meetings"></main>
 
 <section class="method">
-  <h2>How the ledger updates itself</h2>
-  <p class="m-sum">It takes seven votes to change policy; the Chair has one. So each cycle, a pipeline reads both documents and prices the difference &mdash; no pundit required.</p>
-  <div class="steps">
-    <div class="step"><span class="k">T+0 &middot; Decision Day</span><h3>Capture the presser</h3><p>Statement + press conference transcript, as delivered from the podium.</p></div>
-    <div class="step"><span class="k">T+21 &middot; Minutes Day</span><h3>Capture the record</h3><p>The FOMC minutes &mdash; the Committee&rsquo;s own account of why it did what it did.</p></div>
-    <div class="step"><span class="k">T+21 &middot; Same Hour</span><h3>Price the gap</h3><p>Claude reads both, extracts claim pairs, scores each divergence, and writes the meeting into this page.</p></div>
-  </div>
-  <pre class="cmd">$ python analyze.py --presser transcripts/2026-09-presser.txt --minutes transcripts/2026-09-minutes.txt
-&rarr; meeting scored &middot; index.html updated &middot; basis recalculated</pre>
+  <h2>Method</h2>
+  <p>It takes seven votes to change policy; the Chair casts one. So the unit of account here is
+  the <em>claim pair</em>: the Chair&rsquo;s characterisation of the decision set against the
+  minutes&rsquo; record of it, scored 0&ndash;100 by how far the two diverge. The meeting&rsquo;s
+  basis is the mean across claims. Minutes vocabulary is weighted the way Fed-watchers weight
+  it: &ldquo;most&rdquo; is consensus, &ldquo;many&rdquo; a strong majority,
+  &ldquo;various&rdquo; is far short of either.</p>
+  <div class="mrow"><span class="t">T+0</span><p>Decision day. Statement and press-conference transcript captured.</p></div>
+  <div class="mrow"><span class="t">T+21</span><p>Minutes published. A scheduled job fetches both documents from federalreserve.gov.</p></div>
+  <div class="mrow"><span class="t">T+21</span><p>Claude extracts claim pairs, scores each divergence, and commits the meeting to this page. No pundit in the loop.</p></div>
 </section>
 
-<footer>
-  <p><span class="mono">Not investment advice &middot; Not affiliated with the Federal Reserve</span></p>
-  <p>Premise and July 2026 evidence drawn from Claudia Sahm&rsquo;s <a href="https://stayathomemacro.substack.com/">Stay-At-Home Macro</a>, &ldquo;Read the Minutes, Fade the Presser&rdquo; (Aug&nbsp;20,&nbsp;2026). Quotes condensed. Basis points are rhetorical, not tradable &mdash; mostly.</p>
-  <p>Tracking since meeting two. Scheduled meetings remaining: <span class="mono">&infin;</span>.</p>
+<footer id="foot">
+  <p><b>Sources:</b> FOMC minutes and press-conference transcripts, Federal Reserve Board.
+  Premise and July 2026 readings: Claudia Sahm,
+  <a href="https://stayathomemacro.substack.com/">&ldquo;Read the Minutes, Fade the Presser&rdquo;</a>,
+  Stay-At-Home Macro, August 20th 2026. Quotes condensed; basis points rhetorical, not tradable.</p>
+  <p>Not affiliated with the Federal Reserve. Not investment advice.</p>
+  <p id="countdown"></p>
 </footer>
 </div>
 
@@ -176,43 +180,70 @@ footer .mono{font-size:11px; letter-spacing:.14em; text-transform:uppercase}
 <script>
 (function(){
   var data = JSON.parse(document.getElementById('meeting-data').textContent);
-  var root = document.getElementById('meetings');
   var latest = null;
+  data.meetings.forEach(function(m){ if(!latest && m.status==='scored') latest = m; });
 
+  /* ---- chart: divergence by claim, horizontal bars, Economist grammar ---- */
+  if(latest){
+    var C = latest.claims.slice().sort(function(a,b){ return b.score-a.score; });
+    var LBL = 150, W = 660, PW = W - LBL - 34, ROW = 30, TOP = 22;
+    var H = TOP + C.length*ROW + 26;
+    var s = '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Divergence by claim, basis points">';
+    [0,25,50,75,100].forEach(function(v){
+      var x = LBL + PW*v/100;
+      s += '<line x1="'+x+'" y1="'+TOP+'" x2="'+x+'" y2="'+(TOP+C.length*ROW)+'" stroke="var(--faint)" stroke-width="1"/>';
+      s += '<text x="'+x+'" y="'+(TOP-8)+'" text-anchor="middle" font-size="11" fill="var(--grey)">'+v+'</text>';
+    });
+    C.forEach(function(c,i){
+      var y = TOP + i*ROW, bw = PW*c.score/100;
+      s += '<text x="'+(LBL-10)+'" y="'+(y+ROW/2+4)+'" text-anchor="end" font-size="12.5" fill="var(--ink)">'+c.topic+'</text>';
+      s += '<rect x="'+LBL+'" y="'+(y+ROW/2-7)+'" width="'+bw+'" height="14" fill="var(--red)"/>';
+      s += '<text x="'+(LBL+bw+6)+'" y="'+(y+ROW/2+4)+'" font-size="12" font-weight="700" fill="var(--ink)">'+c.score+'</text>';
+    });
+    var mx = LBL + PW*latest.basis/100, yb = TOP + C.length*ROW;
+    s += '<line x1="'+mx+'" y1="'+(TOP-2)+'" x2="'+mx+'" y2="'+(yb+4)+'" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 3"/>';
+    s += '<text x="'+(mx)+'" y="'+(yb+18)+'" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--ink)">mean '+latest.basis+'</text>';
+    s += '<line x1="'+LBL+'" y1="'+yb+'" x2="'+(LBL+PW)+'" y2="'+yb+'" stroke="var(--ink)" stroke-width="1"/>';
+    s += '</svg>';
+    document.getElementById('chart').innerHTML =
+      '<h2 class="c-title">The Chair is not the Committee</h2>'
+      + '<p class="c-sub">Presser–minutes divergence, '+latest.label.toLowerCase()+', by claim, basis points*</p>'
+      + s
+      + '<p class="source">*0 = the Chair’s account matches the Committee’s record; 100 = it contradicts it. Source: ledger below</p>';
+  }
+
+  /* ---- meetings ---- */
+  var root = document.getElementById('meetings');
   data.meetings.forEach(function(m){
     var sec = document.createElement('section');
-    sec.className = 'meeting' + (m.status==='pending' ? ' pending-m' : '');
-    var h = '<div class="m-head"><h2>'+m.label+'</h2><span class="mono" style="font-size:12.5px;color:var(--muted)">'+m.date+'</span>';
+    sec.className = 'meeting';
+    var h = '<div class="m-rule"></div><div class="m-rule"></div>'
+      + '<div class="m-head"><h2>'+m.label+'</h2><span class="m-date">'+m.date+'</span>';
     if(m.status==='scored'){
-      if(!latest) latest = m;
-      h += '<span class="pill '+m.verdict.toLowerCase()+'">'+m.verdict+' &middot; '+m.basis+' bp</span></div>';
-      h += '<ul class="m-facts"><li>DECISION <b>'+m.decision+'</b></li><li>TARGET <b>'+m.rate+'</b></li><li>DISSENTS <b>'+m.dissents+'</b></li><li>INFLATION <b>'+m.inflation+'</b></li></ul>';
+      h += '<span class="m-basis '+m.verdict.toLowerCase()+'">basis <b>'+m.basis+'</b> bp · '+m.verdict.toLowerCase()+'</span></div>';
+      h += '<ul class="m-facts"><li>Decision <b>'+m.decision+'</b></li><li>Target <b>'+m.rate+'</b></li><li>Dissents <b>'+m.dissents+'</b></li><li>Backdrop <b>'+m.inflation+'</b></li></ul>';
       h += '<p class="m-sum">'+m.summary+'</p>';
       m.claims.forEach(function(c){
-        h += '<div class="claim"><div class="c-top"><span class="c-topic">'+c.topic+'</span>'
-          + '<span class="score"><span class="bar"><i style="width:'+c.score+'%"></i></span>+'+c.score+' bp</span></div>'
-          + '<div class="c-q">'+c.question+'</div>'
-          + '<div class="cols">'
-          + '<div class="col presser"><div class="src">The Presser &mdash; Chair Warsh</div><blockquote>'+c.presser_quote+'</blockquote><p class="gist">'+c.presser_gist+'</p></div>'
-          + '<div class="col minutes"><div class="src">The Minutes &mdash; The Committee</div><blockquote>'+c.minutes_quote+'</blockquote><p class="gist">'+c.minutes_gist+'</p></div>'
-          + '</div><p class="c-note">'+c.note+'</p></div>';
+        h += '<div class="claim"><div class="k-row"><span class="k-topic">'+c.topic+'</span>'
+          + '<span class="k-score">+'+c.score+' bp</span></div>'
+          + '<div class="k-q">'+c.question+'</div>'
+          + '<div class="pair">'
+          + '<div class="side presser"><div class="who">The presser — Chair Warsh</div><blockquote>'+c.presser_quote+'</blockquote><p class="gist">'+c.presser_gist+'</p></div>'
+          + '<div class="side minutes"><div class="who">The minutes — the Committee</div><blockquote>'+c.minutes_quote+'</blockquote><p class="gist">'+c.minutes_gist+'</p></div>'
+          + '</div><p class="k-note">'+c.note+'</p></div>';
       });
     } else {
-      h += '<span class="pill pending">AWAITING DATA</span></div>';
-      h += '<div class="pending-box">STATUS: presser T+0 &rarr; minutes T+21 &rarr; basis T+21.<br>'+m.summary+'</div>';
+      h += '<span class="m-date">awaiting data</span></div>';
+      h += '<p class="pending-line"><b>Pending.</b> '+m.summary+'</p>';
     }
     sec.innerHTML = h;
     root.appendChild(sec);
   });
 
-  if(latest){
-    document.getElementById('g-num').innerHTML = latest.basis + ' <small>BP</small>';
-    var pill = document.getElementById('g-pill');
-    pill.textContent = latest.verdict + ' — ' + latest.label;
-    pill.className = 'pill ' + latest.verdict.toLowerCase();
-    document.getElementById('g-note').textContent =
-      'Average divergence between the Chair’s account and the Committee’s record across '
-      + latest.claims.length + ' scored claims. 0 bp = the Chair speaks for the Committee. This is not 0 bp.';
-  }
+  /* ---- meetings remaining: a term, not an infinity ---- */
+  var TERM_END = new Date('2030-05-31');  // four-year Chair term from May 2026
+  var left = Math.max(0, Math.round((TERM_END - Date.now()) / (365.25*24*3600*1000) * 8));
+  document.getElementById('countdown').innerHTML =
+    'Scheduled meetings remaining in the Chair’s term: <b>≈'+left+'</b> (ends May 2030 — renewals, resignations and regime changes notwithstanding).';
 })();
 </script>

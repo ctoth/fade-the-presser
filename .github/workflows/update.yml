@@ -1,0 +1,50 @@
+name: Fade the Presser
+
+on:
+  schedule:
+    # Daily, 19:30 UTC — minutes drop at 2 p.m. ET on release days;
+    # the run is a no-op until new minutes + presser transcript both exist.
+    - cron: "30 19 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Fetch and parse only; skip the Claude call"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fade-the-presser
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install anthropic pydantic pypdf requests
+
+      - name: Score any new meeting
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python auto_update.py ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
+
+      - name: Commit and push if the ledger changed
+        run: |
+          if git diff --quiet index.html; then
+            echo "No ledger change."
+            exit 0
+          fi
+          git config user.name "fade-the-presser bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git commit -m "Ledger update: new FOMC meeting scored [skip ci]"
+          git push
