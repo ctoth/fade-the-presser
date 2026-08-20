@@ -141,40 +141,147 @@ footer b{color:var(--ink)}
 </div>
 
 <script type="application/json" id="meeting-data">
-{"meetings":[
-{"id":"2026-09","label":"September 2026 FOMC","date":"Sept 16–17, 2026","status":"pending",
- "summary":"Markets price a 25 bp hike as fully live. The presser lands T+0; the minutes land T+21. The ledger will do the rest."},
-{"id":"2026-07","label":"July 2026 FOMC","date":"July 28–29, 2026","status":"scored",
- "decision":"HOLD","rate":"3.50–3.75%","dissents":"3 (hawkish — favored a hike)","inflation":"PCE ≈ 3.7%, 5+ yrs above target",
- "basis":80,"verdict":"WIDE",
- "summary":"Warsh’s second meeting as Chair. Per the minutes, the Committee held to gather information before September, saw inflation risks skewed to the upside, and many members were ready to hike if inflation doesn’t decline. The Chair told a different story on all four counts below.",
- "claims":[
- {"topic":"Data dependence","question":"Did the cool June CPI print matter?","score":85,
-  "presser_quote":"In two words, not much — not much… I also don’t want you to leave the misimpression that we’re sort of breathlessly waiting for that.",
-  "presser_gist":"Downplays the data; warns against ‘the data and the dependence.’",
-  "minutes_quote":"Most participants anticipated that inflation would step down over the rest of the year… information arriving before September could provide more clarity.",
-  "minutes_gist":"The June print was the first evidence for the hold thesis. Waiting for data WAS the rationale.",
-  "note":"The FT’s question was right; the Chair’s answer wasn’t."},
- {"topic":"The pause","question":"Was the hold a pause?","score":90,
-  "presser_quote":"I wouldn’t characterize what we did as anything like a pause… a rigorous review of the economic situation… the beginning of the story, not the end of the story.",
-  "presser_gist":"Rejects the premise; offers ‘rigorous review’ instead.",
-  "minutes_quote":"The Committee decided to maintain the target range for the federal funds rate at 3-1/2 to 3-3/4 percent… information could provide more clarity.",
-  "minutes_gist":"Held rates, waiting for clarity. That is the definition of a pause.",
-  "note":"The statement’s own ‘just the facts’ say <b>pause</b>."},
- {"topic":"Markets as policy","question":"Did higher market rates do the Fed’s job?","score":80,
-  "presser_quote":"Rates are higher today than they were 42 days ago… that has provided us some comfort that we’ve got the ability and capability to deliver.",
-  "presser_gist":"Returns to the Treasury curve in three separate answers as quasi-justification for the hold.",
-  "minutes_quote":"Various participants suggested that financial conditions had tightened… partly a reflection of… market expectations that the Committee would adopt a more restrictive policy stance before long.",
-  "minutes_gist":"‘Various’ ≠ consensus — and even they read it as markets pricing a hike, not replacing one. The desk: 25 bp fully priced by September.",
-  "note":"Markets weren’t doing the Fed’s job. They were <b>expecting the Fed to do its job</b> — and cut September pricing as Warsh spoke."},
- {"topic":"Reaction function","question":"What makes this Fed move?","score":65,
-  "presser_quote":"Any central banker, when he or she sees underlying inflation moving higher, is more inclined to tighten policy… That’s my reaction function.",
-  "presser_gist":"A one-man framework: direction of inflation, up or down.",
-  "minutes_quote":"Many participants assessed that policy tightening would likely be necessary if inflation did not decline.",
-  "minutes_gist":"The Committee’s trigger isn’t inflation rising — it’s inflation failing to fall to 2%.",
-  "note":"It takes seven votes. Warsh has <b>one</b>. Heading into September, follow the Committee’s framing."}
-]}
-]}
+{
+ "meetings": [
+  {
+   "id": "2026-09",
+   "label": "September 2026 FOMC",
+   "date": "Sept 16–17, 2026",
+   "status": "pending",
+   "summary": "Markets price a 25 bp hike as fully live. The presser lands T+0; the minutes land T+21. The ledger will do the rest."
+  },
+  {
+   "id": "2026-07",
+   "label": "July 2026 FOMC",
+   "date": "July 28–29, 2026",
+   "status": "scored",
+   "decision": "HOLD",
+   "rate": "3.50–3.75%",
+   "dissents": "3 (hawkish — favored a hike)",
+   "inflation": "PCE ≈ 3.7%, 5+ yrs above target",
+   "basis": 80,
+   "verdict": "WIDE",
+   "summary": "Warsh’s second meeting as Chair. Per the minutes, the Committee held to gather information before September, saw inflation risks skewed to the upside, and many members were ready to hike if inflation doesn’t decline. The Chair told a different story on all four counts below.",
+   "claims": [
+    {
+     "topic": "Data dependence",
+     "question": "Did the cool June CPI print matter?",
+     "score": 85,
+     "presser_quote": "In two words, not much — not much… I also don’t want you to leave the misimpression that we’re sort of breathlessly waiting for that.",
+     "presser_gist": "Downplays the data; warns against ‘the data and the dependence.’",
+     "minutes_quote": "Most participants anticipated that inflation would step down over the rest of the year… information arriving before September could provide more clarity.",
+     "minutes_gist": "The June print was the first evidence for the hold thesis. Waiting for data WAS the rationale.",
+     "note": "The FT’s question was right; the Chair’s answer wasn’t."
+    },
+    {
+     "topic": "The pause",
+     "question": "Was the hold a pause?",
+     "score": 90,
+     "presser_quote": "I wouldn’t characterize what we did as anything like a pause… a rigorous review of the economic situation… the beginning of the story, not the end of the story.",
+     "presser_gist": "Rejects the premise; offers ‘rigorous review’ instead.",
+     "minutes_quote": "The Committee decided to maintain the target range for the federal funds rate at 3-1/2 to 3-3/4 percent… information could provide more clarity.",
+     "minutes_gist": "Held rates, waiting for clarity. That is the definition of a pause.",
+     "note": "The statement’s own ‘just the facts’ say <b>pause</b>."
+    },
+    {
+     "topic": "Markets as policy",
+     "question": "Did higher market rates do the Fed’s job?",
+     "score": 80,
+     "presser_quote": "Rates are higher today than they were 42 days ago… that has provided us some comfort that we’ve got the ability and capability to deliver.",
+     "presser_gist": "Returns to the Treasury curve in three separate answers as quasi-justification for the hold.",
+     "minutes_quote": "Various participants suggested that financial conditions had tightened… partly a reflection of… market expectations that the Committee would adopt a more restrictive policy stance before long.",
+     "minutes_gist": "‘Various’ ≠ consensus — and even they read it as markets pricing a hike, not replacing one. The desk: 25 bp fully priced by September.",
+     "note": "Markets weren’t doing the Fed’s job. They were <b>expecting the Fed to do its job</b> — and cut September pricing as Warsh spoke."
+    },
+    {
+     "topic": "Reaction function",
+     "question": "What makes this Fed move?",
+     "score": 65,
+     "presser_quote": "Any central banker, when he or she sees underlying inflation moving higher, is more inclined to tighten policy… That’s my reaction function.",
+     "presser_gist": "A one-man framework: direction of inflation, up or down.",
+     "minutes_quote": "Many participants assessed that policy tightening would likely be necessary if inflation did not decline.",
+     "minutes_gist": "The Committee’s trigger isn’t inflation rising — it’s inflation failing to fall to 2%.",
+     "note": "It takes seven votes. Warsh has <b>one</b>. Heading into September, follow the Committee’s framing."
+    }
+   ]
+  },
+  {
+   "id": "2026-06",
+   "label": "June 2026 FOMC",
+   "date": "Ended Jun 17, 2026",
+   "status": "scored",
+   "basis": 63,
+   "decision": "At the June 16-17, 2026 meeting, the FOMC held the target range for the federal funds rate at 3-1/2 to 3-3/4 percent, reaffirmed the ample-reserves policy, and issued a markedly shortened postmeeting statement that dropped the prior easing-bias language and added the pledge that \"The Committee will deliver price stability.\" Chairman Warsh, in his first meeting, also announced five task forces (communications, balance sheet, data, productivity/jobs, inflation frameworks) and declined to submit an SEP dot of his own.",
+   "rate": "3-1/2 to 3-3/4 percent (unchanged); IORB 3.65 percent; primary credit rate 3.75 percent",
+   "dissents": "None. The statement was approved 12-0 (Warsh, Williams, Barr, Bowman, Cook, Hammack, Jefferson, Kashkari, Logan, Paulson, Powell, Waller). However, the minutes record that \"a few participants\" saw a case for raising the target range but supported the hold, and participants split roughly evenly on the appropriate year-end rate.",
+   "inflation": "Total PCE inflation was 3.8 percent in April and core 3.3 percent, with staff estimating total PCE at 4.1 percent and core at 3.4 percent in May. Risks were judged tilted to the upside; longer-term expectations remained anchored. SEP medians: total PCE 3.6 percent in 2026 and 2.3 percent in 2027; unemployment about 4.3 percent; median funds rate 3.8 percent at end-2026.",
+   "verdict": "WIDE",
+   "summary": "Warsh's podium account and the Committee's record materially disagree on the direction of the reaction function. The minutes show a Committee with a live, conditional hawkish bias: it deliberately deleted easing-bias language, a few participants argued a hike was already warranted, most participants sketched scenarios in which \"some policy firming would likely be warranted,\" many put the appropriate year-end rate above the current range, and several judged policy not restrictive at all. From the podium Warsh flatly denied anyone had voiced a case for tightening, described the deliberations as one proposal with \"quite limited\" discussion and no disagreement, recast the deletion of forward guidance as a communications-philosophy question for a task force rather than the removal of an easing tilt, and characterized colleagues' dots as low-conviction pencil marks. He also embraced strong productivity-led growth as something to \"embrace,\" whereas most participants flagged above-potential growth as a source of more persistent inflation. On the shortened statement and the fact of a unanimous hold, the accounts line up. Mean divergence 63 - WIDE.",
+   "claims": [
+    {
+     "topic": "Whether anyone on the Committee argued for tightening",
+     "question": "Nick Timiraos: if credibility requires delivering, the move would be to tighten or threaten to - why not today?",
+     "presser_quote": "That judgment you expressed was not expressed by any of the 19 people around the table.  We'll be meeting in six weeks, and we'll take up the issue again.",
+     "presser_gist": "Warsh asserts that no one at the table advanced the view that tightening was the credible move now.",
+     "minutes_quote": "A few participants commented that, in light of these developments, there was a case for raising the target range for the federal funds rate, but those participants indicated that they supported maintaining the current target range at this meeting.",
+     "minutes_gist": "A few participants explicitly made the case for a hike at this meeting, even while supporting the hold.",
+     "score": 82,
+     "note": "Direct factual contradiction. The Chair's blanket denial erases a recorded hawkish bloc; the fact that those participants still voted to hold does not make their argument unspoken."
+    },
+    {
+     "topic": "Why forward guidance was removed from the statement",
+     "question": "Why is forward guidance absent, and what does dropping it mean?",
+     "presser_quote": "Absent, also, is so-called forward guidance—which we agreed was not well suited to the current policy conjuncture. . . . Some along the Committee I think dropped it . . . because they said, at this moment in time, it doesn't feel as though providing forward guidance is right.  Others have, I'd say, different views and think as a general proposition forward guidance isn't the business we should be in.",
+     "presser_gist": "Removal is framed as a conjunctural/philosophical communications choice, with the substance handed off to the communications task force.",
+     "minutes_quote": "Most participants emphasized that they preferred not to repeat the language in the previous postmeeting statement that had suggested an easing bias regarding the likely direction of the Committee's future interest rate decisions. . . . Members also agreed that the statement would not repeat the language that had suggested an easing bias.",
+     "minutes_gist": "The Committee's stated reason was specific and directional: it no longer wanted to signal an easing bias.",
+     "score": 72,
+     "note": "The minutes describe a substantive hawkish signaling decision by 'most participants'; the Chair converts it into a neutral debate about the merits of forward guidance in general, obscuring the policy content of the change."
+    },
+    {
+     "topic": "Degree of Committee conviction and the meeting's deliberations",
+     "question": "Was a rate cut or any alternative discussed, and how much conviction lies behind the dots?",
+     "presser_quote": "There was one proposal on the table.  There was no discussion of any other proposals.  The discussion on that proposal, I would say, was quite limited.  The group was unanimous and unambiguous on it. . . . I didn't hear tons of conviction.  What I heard was the kind of humility that I think we should have.",
+     "presser_gist": "One alternative, limited discussion, unanimity, and low conviction about the path ahead.",
+     "minutes_quote": "Most participants, however, also pointed to scenarios in which . . . inflation would remain elevated . . . In such scenarios, almost all of these participants indicated that some policy firming would likely be warranted to return inflation to 2 percent. . . . Many other participants, however, assessed that the appropriate level of the federal funds rate would be above the current target range at the end of this year.",
+     "minutes_gist": "A structured scenario debate produced a conditional firming bias held by most participants, with many placing the appropriate year-end rate above the current range.",
+     "score": 70,
+     "note": "Unanimity on the hold is accurate, but 'quite limited' discussion with 'no conviction' misrepresents a recorded conditional reaction function - if inflation persists, most would firm. That is the Committee's guidance, and the Chair withheld it."
+    },
+    {
+     "topic": "Productivity-led growth and inflation",
+     "question": "Is strong AI-driven productivity growth a reason the Fed could be easier on policy?",
+     "presser_quote": "If I heard one other thing around that subject over the course of the last couple of days, what I heard was that strong productivity-led growth is not something that we fear, but something we embrace. . . . if we do our job, we can make strong growth, low prices, and strong employment mutually compatible.",
+     "presser_gist": "The Committee views strong, productivity-led growth as unambiguously welcome and non-inflationary.",
+     "minutes_quote": "Most participants remarked that growth in economic activity that exceeded that of potential output, owing in part to strong AI business investment, could contribute to more persistent inflationary pressures. . . . Some participants remarked that productivity gains associated with AI adoption would eventually reduce production costs and increase aggregate supply . . . though they noted this effect would likely take time to materialize.",
+     "minutes_gist": "Most participants saw above-potential growth as an inflation risk; only 'some' cited the eventual disinflationary supply payoff, and with a lag.",
+     "score": 60,
+     "note": "The Chair generalizes a minority-held optimistic view ('some participants') into the room's sentiment, while the consensus concern - demand running ahead of supply and sustaining inflation - goes unmentioned."
+    },
+    {
+     "topic": "How restrictive is the current stance",
+     "question": "Given strong growth, elevated inflation, and soaring equities, is the funds rate restrictive?",
+     "presser_quote": "It's uneven. . . . if I look at the housing markets as one example . . . Fed policy appears to be somewhat restrictive.  I would have a hard time managing to say those words if I were to see what's happening in financial markets, so I'd say it's uneven.",
+     "presser_gist": "The stance is characterized as unevenly restrictive - restrictive in housing, not in financial markets.",
+     "minutes_quote": "Several participants remarked that they did not see the current policy stance as restrictive, while a few other participants commented that they saw the current policy stance as slightly restrictive.",
+     "minutes_gist": "A meaningful bloc judged policy not restrictive at all; only a few called it slightly restrictive.",
+     "score": 48,
+     "note": "The 'uneven' framing is the Chair's own construct and is not in the record. The minutes' center of gravity is more hawkish - the larger group sees no restriction - which the Chair's sector-by-sector answer softens."
+    },
+    {
+     "topic": "Character of the inflation problem",
+     "question": "Is elevated inflation mainly energy and the Iran conflict, or are underlying pressures broadening?",
+     "presser_quote": "Inflation remains elevated relative to the Committee's 2 percent goal, in part reflecting supply shocks that have driven price increases in certain sectors, including energy. . . . That's what we're prepared to say about inflation . . . we do have a really important job there, and it's to make sure that those changes in oil, or beef, or eggs, or milk don't broaden in the economy.",
+     "presser_gist": "Inflation is presented as sector-specific supply shocks that the Fed must prevent from broadening in the future.",
+     "minutes_quote": "Several participants commented that price pressures had become more broad based, with a large share of goods and services—including transportation, airfares, petrochemical products, and agricultural inputs—experiencing substantial increases. . . . The majority of participants highlighted the possibility that, after several years of inflation above 2 percent, continued elevated inflation rates could begin to affect inflation expectations and wage- and price-setting decisions.",
+     "minutes_gist": "Breadth is already an observed problem for several participants, and a majority worried that persistence is starting to threaten expectations and price-setting.",
+     "score": 45,
+     "note": "The Chair speaks of broadening as a risk to be prevented; the record shows several participants already observing it and a majority flagging expectations slippage - a more advanced diagnosis than the podium conveyed."
+    }
+   ]
+  }
+ ]
+}
 </script>
 
 <script>
