@@ -165,10 +165,185 @@ footer b{color:var(--ink)}
 </div>
 
 <script type="application/json" id="meeting-data">
-{"meetings":[
-{"id":"2026-09","label":"September 2026 FOMC","date":"Sept 16–17, 2026","status":"pending",
- "summary":"The presser lands T+0; the minutes land T+21. The ledger will do the rest."}
-]}
+{
+ "meetings": [
+  {
+   "id": "2026-09",
+   "label": "September 2026 FOMC",
+   "date": "Sept 16–17, 2026",
+   "status": "pending",
+   "summary": "The presser lands T+0; the minutes land T+21. The ledger will do the rest."
+  },
+  {
+   "id": "2026-07",
+   "code": "20260729",
+   "label": "July 2026 FOMC",
+   "date": "Ended Jul 29, 2026",
+   "decision_date": "2026-07-29",
+   "minutes_released": "2026-08-19",
+   "status": "scored",
+   "counts": {
+    "CONTRADICTION": 1,
+    "ATTRIBUTION": 0,
+    "EMPHASIS": 4,
+    "CONSISTENT": 1
+   },
+   "runs": 3,
+   "contradiction_runs": 3,
+   "decision": "HOLD",
+   "rate": "3.50-3.75%",
+   "dissents": "3 (hawkish - preferred a 25 bp increase)",
+   "inflation": "Elevated and above target; total PCE inflation around four percent with core near three and a half, boosted by tariffs, Middle East energy costs and AI-related demand",
+   "summary": "The Committee held the target range steady over hawkish dissents that wanted an immediate quarter-point increase, while the minutes record a strong-majority conditional tightening bias if inflation fails to decline. Chairman Warsh's account matched the Committee's record on the balance sheet's secondary role and on the split over whether AI-related price pressures are broadening, but he framed the intermeeting rise in yields as markets reacting to real data rather than to the Fed, where the minutes attribute it in part to communications perceived as more restrictive and to expectations of higher policy rates. He also left the Middle East conflict, which the minutes place at the center of the inflation outlook, almost entirely out of his narrative.",
+   "claims": [
+    {
+     "topic": "Why yields rose",
+     "question": "What drove the intermeeting rise in Treasury yields?",
+     "presser_quote": "I was comforted that markets in the intermeeting period weren’t reacting to us—they weren’t reacting to dots or to speeches—they appeared more than ever to be reacting to real-time events.",
+     "presser_gist": "The Chair says higher nominal and real rates reflect markets responding to incoming events, not to the Fed.",
+     "minutes_quote": "both the market-implied expected path of the federal funds rate and nominal Treasury yields moved up somewhat, in part reflecting FOMC communications that were perceived as more restrictive than expected amid an economic outlook that was little changed",
+     "minutes_gist": "The Committee's record attributes the rise partly to Fed communications read as more restrictive, with the outlook little changed.",
+     "kind": "CONTRADICTION",
+     "note": "The Chair says markets were <b>not</b> reacting to the Fed while the staff record says the move in part reflected reaction to FOMC communications."
+    },
+    {
+     "topic": "Dissent rationale",
+     "question": "What did the dissenters argue?",
+     "presser_quote": "I’m going to let the—I’ll let the dissenters speak for themselves.  The way I heard it over the last two days was overwhelming agreement on objectives and authority and commitment.",
+     "presser_gist": "The Chair declines to characterize the dissents and stresses broad agreement on goals rather than the substance of the disagreement.",
+     "minutes_quote": "Several participants favored an increase of 25 basis points in the target range at this meeting. These participants remarked that price pressures appeared broad based and judged that the Committee should adopt a more restrictive policy stance",
+     "minutes_gist": "A meaningful bloc judged price pressures broad based and wanted a more restrictive stance immediately.",
+     "kind": "EMPHASIS",
+     "note": "Same facts and attribution, but the Chair recasts a substantive argument about broad-based price pressures as agreement on objectives."
+    },
+    {
+     "topic": "Data dependence",
+     "question": "How much did the soft June inflation print matter?",
+     "presser_quote": "the historic problem with data dependence is the data and the dependence.  We are not relying on any one individual piece of data as cover or as an excuse or as validation.",
+     "presser_gist": "The Chair dismisses reliance on any single data release and downplays data dependence generally.",
+     "minutes_quote": "Participants generally thought that the information that would accumulate in the intermeeting period could provide more clarity, and correspondingly reduce uncertainty, about the inflation outlook... participants reiterated that their interpretations of incoming information would be a key component of their deliberations.",
+     "minutes_gist": "Participants placed incoming information at the center of the coming decision.",
+     "kind": "EMPHASIS",
+     "note": "Both reject mechanical reliance on one print, but the minutes make incoming information central where the Chair makes it peripheral."
+    },
+    {
+     "topic": "Bias for tightening",
+     "question": "Why should rates not be higher, and what comes next?",
+     "presser_quote": "my own judgment is this is a period of watchful thinking, not watchful waiting.  And I think the score on that vote was unanimous.",
+     "presser_gist": "The Chair presents the hold as a unanimously shared posture of active deliberation without a stated tilt.",
+     "minutes_quote": "Many participants assessed that policy tightening would likely be necessary if inflation did not decline. Some participants commented that financial conditions might not currently be sufficiently restrictive to facilitate a return of inflation to 2 percent.",
+     "minutes_gist": "A strong majority saw tightening as likely necessary absent a decline in inflation.",
+     "kind": "EMPHASIS",
+     "note": "The Chair's claim of unanimous watchfulness omits the strong-majority conditional tightening bias the minutes record."
+    },
+    {
+     "topic": "Supply shocks",
+     "question": "Which shocks are driving inflation now?",
+     "presser_quote": "There’ve been a series of them that have been hitting this economy... we’re trying to understand is—to what extent are these shocks broadening in their effect—broadening in their impact on prices that are quite far removed from it?",
+     "presser_gist": "The Chair describes a generic series of shocks and asks whether their price effects are broadening.",
+     "minutes_quote": "Many participants noted that the recent re-escalation of the conflict in the Middle East significantly clouded the inflation outlook. These participants remarked that a protracted conflict could prolong supply chain challenges and could put upward pressures on inflation.",
+     "minutes_gist": "A strong majority singled out the Middle East conflict as the shock clouding the inflation outlook.",
+     "kind": "EMPHASIS",
+     "note": "Same underlying facts, but the specific shock the Committee foregrounded goes unnamed in the Chair's account."
+    },
+    {
+     "topic": "Balance sheet role",
+     "question": "Is the policy rate the primary instrument?",
+     "presser_quote": "If, as the Fed has long held, interest rate policy should be its primary monetary policy instrument, how much accommodation are we getting from the balance sheet?",
+     "presser_gist": "The Chair frames the rate as the primary tool while asking how much accommodation the balance sheet still provides.",
+     "minutes_quote": "many participants reaffirmed that the primary means of adjusting the stance of monetary policy should be through changes in the target range for the federal funds rate",
+     "minutes_gist": "A strong majority reaffirmed the funds rate as the primary policy instrument, with balance sheet work pending a task force.",
+     "kind": "CONSISTENT",
+     "note": "Both accounts treat the policy rate as primary and the balance sheet as a live but secondary question for later deliberation."
+    }
+   ]
+  },
+  {
+   "id": "2026-06",
+   "code": "20260617",
+   "label": "June 2026 FOMC",
+   "date": "Ended Jun 17, 2026",
+   "decision_date": "2026-06-17",
+   "minutes_released": "2026-07-08",
+   "status": "scored",
+   "counts": {
+    "CONTRADICTION": 1,
+    "ATTRIBUTION": 0,
+    "EMPHASIS": 4,
+    "CONSISTENT": 1
+   },
+   "runs": 3,
+   "contradiction_runs": 3,
+   "decision": "HOLD",
+   "rate": "3.50-3.75%",
+   "dissents": "none (12-0)",
+   "inflation": "Elevated and rising; total PCE near 4 percent, upside risks",
+   "summary": "At Chairman Warsh's first meeting the Committee held rates and issued a much shorter statement that dropped the prior easing-bias language and pledged to deliver price stability. The Chair framed the meeting as unanimous, low-conviction and free of any tightening impulse, while the minutes record a Committee leaning hawkish: upside inflation risks, a few participants making a case for a hike, most seeing firming as warranted if inflation stays high, and several judging policy not restrictive at all. The accounts agree on facts and on the vote, but differ sharply in weight, and on one point about what was said around the table they cannot both be right.",
+   "claims": [
+    {
+     "topic": "Forward guidance",
+     "question": "Why did the statement drop forward guidance?",
+     "presser_quote": "Absent, also, is so-called forward guidance—which we agreed was not well suited to the current policy conjuncture. ... Some along the Committee I think dropped it ... because they said, at this moment in time, it doesn't feel as though providing forward guidance is right.",
+     "presser_gist": "The Chair says the Committee agreed to abandon forward guidance because it does not suit the moment.",
+     "minutes_quote": "Most participants emphasized that they preferred not to repeat the language in the previous postmeeting statement that had suggested an easing bias regarding the likely direction of the Committee's future interest rate decisions.",
+     "minutes_gist": "Most participants wanted to drop language implying an easing bias, not guidance as such.",
+     "kind": "EMPHASIS",
+     "note": "Same edit, but the Chair casts it as retiring forward guidance generally while the minutes cast it as removing a directional easing signal."
+    },
+    {
+     "topic": "Policy stance",
+     "question": "Is the current policy stance restrictive?",
+     "presser_quote": "I'll give you my own.  It's uneven. ... broadly I would say, there, Fed policy appears to be somewhat restrictive.  I would have a hard time managing to say those words if I were to see what's happening in financial markets, so I'd say it's uneven.",
+     "presser_gist": "The Chair calls policy unevenly restrictive, tight in housing but not in financial markets.",
+     "minutes_quote": "Several participants remarked that they did not see the current policy stance as restrictive, while a few other participants commented that they saw the current policy stance as slightly restrictive.",
+     "minutes_gist": "A meaningful bloc judged policy not restrictive at all, with only a few calling it slightly restrictive.",
+     "kind": "EMPHASIS",
+     "note": "The Chair's sector-by-sector 'uneven' framing softens a recorded lean toward policy not being restrictive."
+    },
+    {
+     "topic": "Rate projections",
+     "question": "How much conviction lies behind the dots?",
+     "presser_quote": "So I didn't hear tons of conviction.  What I heard was the kind of humility that I think we should have.",
+     "presser_gist": "The Chair says colleagues' rate projections carried little conviction and were held loosely.",
+     "minutes_quote": "Most participants, however, also pointed to scenarios in which, in the context of stable labor market conditions, inflation would remain elevated ... In such scenarios, almost all of these participants indicated that some policy firming would likely be warranted to return inflation to 2 percent.",
+     "minutes_gist": "Most participants saw a live scenario of persistent inflation in which firming would be warranted.",
+     "kind": "EMPHASIS",
+     "note": "Both describe scenario-based thinking, but the minutes record a widely shared conditional tightening reaction the Chair reduces to humility."
+    },
+    {
+     "topic": "Inflation breadth",
+     "question": "Is high inflation confined to energy and supply shocks?",
+     "presser_quote": "Inflation remains elevated relative to the Committee's 2 percent goal, in part reflecting supply shocks that have driven price increases in certain sectors, including energy. ... That's what we're prepared to say about inflation, but the commitment to deliver is strong, unanimous, and unambiguous.",
+     "presser_gist": "Asked about underlying pressures, the Chair stands on the statement's sectoral supply-shock language.",
+     "minutes_quote": "Several participants commented that price pressures had become more broad based, with a large share of goods and services—including transportation, airfares, petrochemical products, and agricultural inputs—experiencing substantial increases.",
+     "minutes_gist": "A meaningful bloc saw price pressures broadening well beyond energy.",
+     "kind": "EMPHASIS",
+     "note": "The Chair declines to go beyond sectoral shocks while the minutes record explicit concern about broadening pressures."
+    },
+    {
+     "topic": "Case for a hike",
+     "question": "Did anyone argue for tightening at this meeting?",
+     "presser_quote": "That judgment you expressed was not expressed by any of the 19 people around the table.",
+     "presser_gist": "The Chair says no one at the table argued that credibility required tightening now.",
+     "minutes_quote": "A few participants commented that, in light of these developments, there was a case for raising the target range for the federal funds rate, but those participants indicated that they supported maintaining the current target range at this meeting.",
+     "minutes_gist": "A few participants said there was a case for raising rates, though they backed the hold.",
+     "kind": "CONTRADICTION",
+     "note": "Whether a tightening argument was voiced at the table is a factual question the two accounts answer differently."
+    },
+    {
+     "topic": "Labor market",
+     "question": "How does the Committee read the labor market?",
+     "presser_quote": "the Committee thought that the labor markets were stable.  There were some people around the Committee who thought that it was trending better than that.",
+     "presser_gist": "The Chair reports a stable labor market with some seeing improving momentum.",
+     "minutes_quote": "Participants generally expected labor market conditions to remain stable in the near term, with the unemployment rate staying close to current levels. ... several participants noted that the solid payroll employment data in recent months could signal increased labor market momentum.",
+     "minutes_gist": "Participants generally saw stability, with several detecting increased momentum.",
+     "kind": "CONSISTENT",
+     "note": "The Chair's characterization tracks both the general view and the minority seeing improvement."
+    }
+   ]
+  }
+ ]
+}
 </script>
 
 <script>
