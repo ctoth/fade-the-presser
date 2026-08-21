@@ -143,8 +143,8 @@ footer b{color:var(--ink)}
   and a run with any unverifiable quote is discarded. The run shown is the median by number of
   contradictions, and the ledger says in how many runs a contradiction appeared at all.</p>
   <p>The market test is the title taken literally. If the presser moves rates and the minutes
-  move them back, the presser was faded. We use the 2-year Treasury yield (FRED series DGS2,
-  daily close): the change on the meeting&rsquo;s final day against the change on the day the
+  move them back, the presser was faded. We use the 2-year Treasury par yield (daily close, as published by
+  the U.S. Treasury): the change on the meeting&rsquo;s final day against the change on the day the
   minutes are released. Opposite signs count as a fade. It is a coarse, daily, one-instrument
   test &mdash; but it is a real number with a real unit, which the classification is not.</p>
   <div class="mrow"><span class="t">T+0</span><p>Decision day. Statement and press-conference transcript captured; 2-year close recorded.</p></div>
@@ -154,7 +154,7 @@ footer b{color:var(--ink)}
 
 <footer id="foot">
   <p><b>Sources:</b> FOMC minutes and press-conference transcripts, Federal Reserve Board;
-  2-year Treasury constant-maturity yield, FRED (DGS2). Premise: Claudia Sahm,
+  2-year par yield, U.S. Treasury daily yield curve. Premise: Claudia Sahm,
   <a href="https://stayathomemacro.substack.com/">&ldquo;Read the Minutes, Fade the Presser&rdquo;</a>,
   Stay-At-Home Macro, August 20th 2026. Every quoted fragment is machine-verified against the
   Federal Reserve source text before publication; classifications are machine-generated and
@@ -394,7 +394,7 @@ footer b{color:var(--ink)}
       + s
       + '<p class="tally">Faded &mdash; opposite-sign moves &mdash; in <b>'+faded+' of '+tested+'</b> testable meetings'
       + (pend ? ' ('+plural(pend,'meeting')+' pending or flat)' : '') + '.</p>'
-      + '<p class="source">A flat day on either side is not a test. Daily closes from FRED (DGS2); the presser begins 2:30 p.m. ET and the minutes are released 2:00 p.m. ET, so each session contains its event. Source: Federal Reserve Board, H.15</p>';
+      + '<p class="source">A flat day on either side is not a test. Daily closes from the U.S. Treasury par yield curve; the presser begins 2:30 p.m. ET and the minutes are released 2:00 p.m. ET, so each session contains its event. Source: U.S. Department of the Treasury</p>';
   })();
 
   /* ---- chart 2: pairs by type ---- */

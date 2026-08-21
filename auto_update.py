@@ -5,8 +5,7 @@ skips meetings already in index.html, and for each new one: fetches the
 minutes (HTML) and the press-conference transcript (PDF), runs the
 claim-pair classification from analyze.py, and injects the meeting into
 index.html. On every run it also refreshes the market test (market.py) for
-all recorded meetings, since FRED publishes the minutes-day close a day
-late. Exits 0 quietly when there is nothing new.
+all recorded meetings, since the minutes-day close posts after the job runs. Exits 0 quietly when there is nothing new.
 
 Usage:
     python auto_update.py            # full run (needs ANTHROPIC_API_KEY)
@@ -95,7 +94,7 @@ def published_minutes() -> dict[str, date | None]:
 
 
 def refresh_market(releases: dict[str, date | None]) -> None:
-    """Recompute the market block for every recorded meeting (FRED lags a day)."""
+    """Recompute the market block for every recorded meeting (closes post late)."""
     series = load_series()
     html, match, data = load_data()
     changed = False

@@ -2,7 +2,8 @@
 
 "Fade the presser" is a falsifiable claim: the press conference moves rates
 and the minutes move them back. This module measures it with the 2-year
-Treasury constant-maturity yield (FRED series DGS2, daily close, H.15):
+Treasury constant-maturity yield as published daily by the U.S. Treasury (par yield curve, the series
+FRED republishes as DGS2):
 
     decision-day change  = close on the meeting's final day - prior close
     minutes-day change   = close on the minutes release day - prior close
@@ -18,34 +19,40 @@ from __future__ import annotations
 import csv
 import io
 import time
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 
 import requests
 
-FRED_CSV = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={series}&cosd={start}"
-START = "2026-01-01"   # the Warsh era; keeps the CSV small
-SERIES = "DGS2"
+TREASURY_CSV = ("https://home.treasury.gov/resource-center/data-chart-center/interest-rates/"
+                "daily-treasury-rates.csv/{year}/all?type=daily_treasury_yield_curve"
+                "&field_tdr_date_value={year}&page&_format=csv")
+START_YEAR = 2026          # the Warsh era
+SERIES = "UST 2-year par yield"
+COLUMN = "2 Yr"
 UA = {"User-Agent": "fade-the-presser/1.0 (FOMC communication tracker)"}
 
 
-def load_series(series: str = SERIES, start: str = START) -> dict[date, float]:
-    last_err: Exception | None = None
-    for attempt in range(3):
-        try:
-            r = requests.get(FRED_CSV.format(series=series, start=start), headers=UA, timeout=(15, 90))
-            r.raise_for_status()
-            break
-        except requests.RequestException as e:       # FRED is slow from CI runners at times
-            last_err = e
-            time.sleep(5 * (attempt + 1))
-    else:
-        raise RuntimeError(f"FRED fetch failed after 3 attempts: {last_err}")
+def load_series(start_year: int = START_YEAR) -> dict[date, float]:
+    """Daily 2-year par yields from the Treasury's own published curve (the
+    primary source behind FRED's DGS2, which throttles CI runners)."""
     out: dict[date, float] = {}
-    for row in csv.DictReader(io.StringIO(r.text)):
-        val = row.get(series) or row.get("value") or ""
-        if val.strip() in ("", "."):
-            continue            # market holiday / not yet published
-        out[date.fromisoformat(row["observation_date"] if "observation_date" in row else row["DATE"])] = float(val)
+    for year in range(start_year, date.today().year + 1):
+        last_err: Exception | None = None
+        for attempt in range(3):
+            try:
+                r = requests.get(TREASURY_CSV.format(year=year), headers=UA, timeout=(15, 90))
+                r.raise_for_status()
+                break
+            except requests.RequestException as e:
+                last_err = e
+                time.sleep(5 * (attempt + 1))
+        else:
+            raise RuntimeError(f"Treasury fetch failed for {year} after 3 attempts: {last_err}")
+        for row in csv.DictReader(io.StringIO(r.text)):
+            val = (row.get(COLUMN) or "").strip()
+            if not val:
+                continue
+            out[datetime.strptime(row["Date"], "%m/%d/%Y").date()] = float(val)
     return out
 
 

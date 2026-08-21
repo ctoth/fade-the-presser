@@ -21,7 +21,7 @@ Live: https://ctoth.github.io/fade-the-presser/
   personal view as the Committee's, or vice versa), `EMPHASIS`, `CONSISTENT`.
   Meeting-level output is counts, with how many of the independent runs found a
   contradiction at all.
-- **The market test.** 2-year Treasury yield change (FRED `DGS2`, daily close)
+- **The market test.** 2-year Treasury par yield change (Treasury's daily curve, daily close)
   on decision day vs. on minutes-release day. Opposite signs = the presser was
   faded. Coarse, free, and a real number with a real unit.
 
@@ -31,10 +31,10 @@ Live: https://ctoth.github.io/fade-the-presser/
   embedded JSON block.
 - `analyze.py` — Claude extraction + classification, quote verification,
   multi-run selection, JSON injection.
-- `market.py` — FRED fetch and the decision-day / minutes-day comparison.
+- `market.py` — Treasury yield-curve fetch and the decision-day / minutes-day comparison.
 - `auto_update.py` — scrapes the Fed calendar (meeting dates + minutes release
   dates), fetches documents, strips PDF running headers, runs the above,
-  refreshes market data for all meetings (FRED lags a day).
+  refreshes market data for all meetings each run.
 - `.github/workflows/update.yml` — daily cron + manual dispatch (`dry_run`
   input); commits `index.html` when it changes.
 
