@@ -1,51 +1,50 @@
 # Fade the Presser
 
-**Read the minutes. Fade the presser.** A meeting-by-meeting ledger of the gap
-between what the Fed Chair says at the press conference (T+0) and what the FOMC
-minutes record three weeks later (T+21) — scored in rhetorical basis points.
+**Read the minutes. Fade the presser.** A meeting-by-meeting ledger of what the
+Fed Chair said at the press conference (T+0) against what the FOMC minutes
+recorded three weeks later (T+21) — as verbatim, machine-verified quote pairs,
+classified rather than scored — plus the market test the title implies.
 
 Premise from Claudia Sahm's [Stay-At-Home Macro](https://stayathomemacro.substack.com/)
-post "Read the Minutes, Fade the Presser" (Aug 20, 2026), which seeded the
-July 2026 meeting data.
+post "Read the Minutes, Fade the Presser" (Aug 20, 2026).
 
-## The site
+Live: https://ctoth.github.io/fade-the-presser/
 
-`index.html` — fully self-contained static page. Open it in a browser, that's it.
-Meeting data lives in the embedded `<script type="application/json" id="meeting-data">`
-block, so the page needs no server and no fetch.
+## What it publishes
 
-- **Presser–Minutes Basis**: mean divergence across scored claims for the
-  latest meeting. 0 bp = the Chair speaks for the Committee.
-- **Claim ledger**: per claim, the Chair's condensed quote vs. the minutes'
-  condensed quote, a gist for each, a 0–100 divergence score, and a verdict note.
+- **Claim pairs.** For each substantive topic, a condensed verbatim excerpt from
+  the Chair beside one from the minutes. Every quoted fragment is checked
+  verbatim against the Federal Reserve source text before publication; an
+  analysis run with any unverifiable quote is discarded.
+- **A classification per pair**, not a score: `CONTRADICTION` (both accounts
+  can't be true), `ATTRIBUTION` (same facts, the Chair presents a minority or
+  personal view as the Committee's, or vice versa), `EMPHASIS`, `CONSISTENT`.
+  Meeting-level output is counts, with how many of the independent runs found a
+  contradiction at all.
+- **The market test.** 2-year Treasury yield change (FRED `DGS2`, daily close)
+  on decision day vs. on minutes-release day. Opposite signs = the presser was
+  faded. Coarse, free, and a real number with a real unit.
 
-## The pipeline ("always and forever")
+## Layout
 
-Each FOMC cycle, when the minutes drop:
+- `index.html` — the whole site, self-contained; meeting data lives in an
+  embedded JSON block.
+- `analyze.py` — Claude extraction + classification, quote verification,
+  multi-run selection, JSON injection.
+- `market.py` — FRED fetch and the decision-day / minutes-day comparison.
+- `auto_update.py` — scrapes the Fed calendar (meeting dates + minutes release
+  dates), fetches documents, strips PDF running headers, runs the above,
+  refreshes market data for all meetings (FRED lags a day).
+- `.github/workflows/update.yml` — daily cron + manual dispatch (`dry_run`
+  input); commits `index.html` when it changes.
+
+## Running it yourself
 
 ```bash
-pip install anthropic pydantic
-export ANTHROPIC_API_KEY=...   # or `ant auth login`
-
-python analyze.py \
-  --presser transcripts/2026-09-presser.txt \
-  --minutes transcripts/2026-09-minutes.txt \
-  --id 2026-09 --label "September 2026 FOMC" --date "Sept 16-17, 2026"
+pip install anthropic pydantic pypdf requests
+export ANTHROPIC_API_KEY=...        # or `ant auth login`
+python auto_update.py --dry-run     # fetch/parse/market only
+python auto_update.py               # classify any new meeting
 ```
 
-`analyze.py` sends both documents to Claude (`claude-opus-5`) with a structured
-output schema, gets back scored claim pairs, computes the basis, and injects the
-meeting straight into `index.html` (replacing any pending placeholder with the
-same id). Commit, push, done — repeat every six weeks until regime change ends
-or the regime does.
-
-## Scoring rubric
-
-| Score | Reading |
-|---|---|
-| 0–30 | ALIGNED — the Chair's account matches the record |
-| 31–60 | MODERATE — emphasis drifts from the record |
-| 61–100 | WIDE — the account and the record materially disagree |
-
-Not investment advice. Not affiliated with the Federal Reserve. Basis points
-are rhetorical, not tradable — mostly.
+Not investment advice. Not affiliated with the Federal Reserve.

@@ -1,12 +1,17 @@
-"""Fade the Presser — meeting analyzer.
+"""Fade the Presser — claim-pair extraction and classification.
 
-Feed it a press-conference transcript and the FOMC minutes for the same
-meeting. Claude extracts claim pairs (what the Chair said vs. what the
-Committee recorded) and scores each divergence 0-100. The scoring is run
-N_RUNS times independently; every quote fragment in every run is checked
-against the source text, runs with any unverifiable quote are discarded,
-and the published basis is the mean across surviving runs with its range.
-The claim pairs shown are those of the run closest to that mean.
+Given a press-conference transcript and the FOMC minutes for the same
+meeting, Claude pairs the Chair's account of each substantive point with the
+Committee's record of it, as condensed verbatim quotes, and classifies each
+pair into one of four defined types. There is no score: the output is the
+pairs themselves, which a reader can check against the two quotes, plus the
+counts by type.
+
+Every quote fragment is verified verbatim against the source text; a run
+with any unverifiable quote is discarded. The analysis runs N_RUNS times and
+the published run is the one with the median count of contradictions; how
+many runs found at least one contradiction is published alongside, as the
+stability indicator.
 
 Usage:
     python analyze.py --presser transcripts/2026-09-presser.txt \
@@ -24,18 +29,20 @@ import argparse
 import json
 import re
 import sys
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from typing import List
+from typing import List, Literal
 
 import anthropic
 from pydantic import BaseModel, Field
 
 MODEL = "claude-opus-5"
-N_RUNS = 5
-MIN_VALID_RUNS = 3
+N_RUNS = 3
+MIN_VALID_RUNS = 2
 MIN_FRAGMENT_CHARS = 8   # alphanumeric chars; shorter fragments aren't checkable
 INDEX = Path(__file__).parent / "index.html"
+KINDS = ("CONTRADICTION", "ATTRIBUTION", "EMPHASIS", "CONSISTENT")
 
 DATA_RE = re.compile(
     r'(<script type="application/json" id="meeting-data">\s*)(.*?)(\s*</script>)',
@@ -46,6 +53,8 @@ QUOTE_RULES = ("Condensed verbatim excerpt from the source text. Copy words exac
                "mark omitted spans with an ellipsis (...). No paraphrase, no bracketed "
                "insertions, no corrections of grammar.")
 
+Kind = Literal["CONTRADICTION", "ATTRIBUTION", "EMPHASIS", "CONSISTENT"]
+
 
 class Claim(BaseModel):
     topic: str = Field(description="Very short label, 1-3 words, e.g. 'Data dependence'")
@@ -54,9 +63,14 @@ class Claim(BaseModel):
     presser_gist: str = Field(description="One sentence: the Chair's position, plainly")
     minutes_quote: str = Field(description="From the minutes. " + QUOTE_RULES)
     minutes_gist: str = Field(description="One sentence: the Committee's recorded position, plainly")
-    score: int = Field(description="Divergence 0-100. 0 = same substance; 50 = clear difference "
-                                   "of emphasis or degree; 100 = direct contradiction of fact or rationale")
-    note: str = Field(description="One sentence explaining the score. Sparing <b> allowed. No numbers.")
+    kind: Kind = Field(description=(
+        "CONTRADICTION: the two accounts cannot both be true. "
+        "ATTRIBUTION: same facts, but the Chair presents as the Committee's view something the "
+        "minutes attribute to a minority or to the Chair alone (or the reverse). "
+        "EMPHASIS: same facts and attribution, materially different weight or framing. "
+        "CONSISTENT: same substance in different words."))
+    note: str = Field(description="One sentence justifying the classification from the two quotes. "
+                                  "Sparing <b> allowed. No numbers.")
 
 
 class MeetingAnalysis(BaseModel):
@@ -65,32 +79,36 @@ class MeetingAnalysis(BaseModel):
     dissents: str = Field(description="e.g. '3 (hawkish - favored a hike)' or 'none'")
     inflation: str = Field(description="One short phrase on the inflation backdrop")
     summary: str = Field(description="2-3 sentences on the meeting and how the two accounts compare. "
-                                     "Do not cite any numeric scores; they are computed separately.")
+                                     "No counts or numbers; those are computed separately.")
     claims: List[Claim] = Field(description="4-6 pairs covering the most substantive topics, "
                                             "in the order the press conference raised them")
 
 
 SYSTEM = """You are a careful reader of Federal Reserve communications. You are given
 the transcript of an FOMC press conference and the minutes of the same meeting,
-published three weeks later. Your job is to compare the Chair's account of the
-decision, its rationale and the outlook with the Committee's own record of the
-same points.
+published three weeks later. Your job is to pair the Chair's account of each
+substantive point with the Committee's own record of the same point, and to
+classify the relationship between the two.
 
 Method:
 - Identify the 4-6 most substantive topics the Chair addressed that the minutes
   also address. Choose by substance, not by how much the accounts differ. A
-  meeting where the accounts agree should produce pairs that score low.
+  meeting where the accounts agree should produce mostly CONSISTENT pairs.
 - For each topic, pair a condensed verbatim excerpt from the Chair with a
-  condensed verbatim excerpt from the minutes, and score the divergence 0-100
-  symmetrically: 0 means the same substance in different words; around 50 means
-  a clear difference of emphasis, degree or attribution; 100 means a direct
-  contradiction of fact or rationale. Differences of tone alone score low.
+  condensed verbatim excerpt from the minutes, then classify:
+    CONTRADICTION - the two accounts cannot both be true (a fact, a count, a
+      stated rationale, or whether something was said or proposed).
+    ATTRIBUTION - the facts agree, but the Chair presents as the Committee's
+      view something the minutes attribute to a minority, to "some" or "a few"
+      participants, or to the Chair alone; or the Chair disowns as personal a
+      view the minutes record as the Committee's.
+    EMPHASIS - same facts and attribution; materially different weight, order
+      or framing.
+    CONSISTENT - the same substance in different words. Tone alone never
+      changes a classification.
 - Read minutes vocabulary the way Fed-watchers do: "most" and "almost all"
   indicate consensus; "many" a strong majority; "several" a meaningful bloc;
-  "some", "various" and "a few" are well short of a majority. A view the minutes
-  attribute to a minority is not the Committee's view, and a personal framework
-  the Chair offers from the podium is not the Committee's unless the minutes
-  record it as such.
+  "some", "various" and "a few" are well short of a majority.
 - Quotes must be exact text from the documents with omissions marked by an
   ellipsis. Every quote will be machine-checked against the source; a quote that
   cannot be found verbatim invalidates the whole analysis."""
@@ -106,12 +124,12 @@ def _norm(s: str) -> str:
 
 def _fragments(quote: str) -> list[str]:
     quote = re.sub(r"\[[^\]]*\]", "", quote)          # drop bracketed insertions
-    parts = re.split(r"(?:\.\s*){3,}|…", quote)  # split on ..., . . . or …
+    parts = re.split(r"(?:\.\s*){3,}|…", quote)       # split on ..., . . . or …
     return [p for p in (_norm(p) for p in parts) if len(p) >= MIN_FRAGMENT_CHARS]
 
 
 def verify_quotes(a: MeetingAnalysis, presser: str, minutes: str) -> list[str]:
-    """Return a list of human-readable misses; empty means every fragment was found."""
+    """Return human-readable misses; empty means every fragment was found verbatim."""
     np_, nm = _norm(presser), _norm(minutes)
     misses = []
     for c in a.claims:
@@ -126,11 +144,7 @@ def verify_quotes(a: MeetingAnalysis, presser: str, minutes: str) -> list[str]:
     return misses
 
 
-# ---------------------------------------------------------------- scoring
-
-def verdict_for(mean: float) -> str:
-    return "ALIGNED" if mean <= 30 else "MODERATE" if mean <= 60 else "WIDE"
-
+# ---------------------------------------------------------------- analysis
 
 def run_once(client: anthropic.Anthropic, presser: str, minutes: str) -> MeetingAnalysis:
     response = client.messages.parse(
@@ -143,68 +157,81 @@ def run_once(client: anthropic.Anthropic, presser: str, minutes: str) -> Meeting
                 "<press_conference_transcript>\n" + presser +
                 "\n</press_conference_transcript>\n\n"
                 "<fomc_minutes>\n" + minutes + "\n</fomc_minutes>\n\n"
-                "Compare the Chair's account with the Committee's record."
+                "Pair and classify the Chair's account against the Committee's record."
             ),
         }],
         output_format=MeetingAnalysis,
     )
     if response.stop_reason == "refusal":
         sys.exit(f"Model declined the request (stop_details: {response.stop_details}).")
+    assert response.parsed_output is not None
     return response.parsed_output
 
 
-def score_meeting(presser: str, minutes: str, n_runs: int = N_RUNS) -> dict:
-    """Run the analysis n_runs times, verify every run's quotes, aggregate."""
+def counts_of(a: MeetingAnalysis) -> dict[str, int]:
+    c = Counter(cl.kind for cl in a.claims)
+    return {k: c.get(k, 0) for k in KINDS}
+
+
+def classify_meeting(presser: str, minutes: str, n_runs: int = N_RUNS) -> dict:
+    """Run n_runs analyses, verify every quote, publish the median-contradiction run."""
     client = anthropic.Anthropic()
     with ThreadPoolExecutor(max_workers=n_runs) as pool:
         runs = list(pool.map(lambda _: run_once(client, presser, minutes), range(n_runs)))
 
-    valid: list[tuple[float, MeetingAnalysis]] = []
+    valid: list[MeetingAnalysis] = []
     for i, a in enumerate(runs, 1):
         misses = verify_quotes(a, presser, minutes)
-        mean = sum(c.score for c in a.claims) / len(a.claims)
         if misses:
             print(f"  run {i}: REJECTED ({len(misses)} unverifiable quote fragment(s))")
             for m in misses[:4]:
                 print("     ", m)
             continue
-        print(f"  run {i}: ok — {len(a.claims)} claims, mean {mean:.1f}")
-        valid.append((mean, a))
+        k = counts_of(a)
+        print(f"  run {i}: ok — {len(a.claims)} pairs: "
+              + ", ".join(f"{v} {n.lower()}" for n, v in k.items() if v))
+        valid.append(a)
 
     if len(valid) < MIN_VALID_RUNS:
         sys.exit(f"Only {len(valid)}/{n_runs} runs passed quote verification "
                  f"(need {MIN_VALID_RUNS}); refusing to publish.")
 
-    means = [m for m, _ in valid]
-    basis = sum(means) / len(means)
-    _, shown = min(valid, key=lambda mv: abs(mv[0] - basis))   # run closest to the mean
+    # Publish the run at the median on (contradictions, attributions); report stability.
+    ranked = sorted(valid, key=lambda a: (counts_of(a)["CONTRADICTION"], counts_of(a)["ATTRIBUTION"]))
+    shown = ranked[len(ranked) // 2]
     return {
-        "basis": round(basis),
-        "basis_range": [round(min(means)), round(max(means))],
+        "counts": counts_of(shown),
         "runs": len(valid),
-        "run_means": [round(m, 1) for m in means],
-        "verdict": verdict_for(basis),
+        "contradiction_runs": sum(1 for a in valid if counts_of(a)["CONTRADICTION"] > 0),
         **shown.model_dump(),
     }
 
 
 # ---------------------------------------------------------------- publish
 
-def inject(meeting: dict) -> None:
+def load_data() -> tuple[str, re.Match, dict]:
     html = INDEX.read_text(encoding="utf-8")
     match = DATA_RE.search(html)
     if not match:
         sys.exit("index.html: meeting-data block not found.")
-    data = json.loads(match.group(2))
-    data["meetings"] = [m for m in data["meetings"] if m["id"] != meeting["id"]]
-    data["meetings"].insert(0, meeting)
+    return html, match, json.loads(match.group(2))
+
+
+def save_data(html: str, match: re.Match, data: dict) -> None:
     data["meetings"].sort(key=lambda m: m["id"], reverse=True)
     blob = json.dumps(data, ensure_ascii=False, indent=1)
     INDEX.write_text(html[:match.start(2)] + blob + html[match.end(2):], encoding="utf-8")
 
 
+def inject(meeting: dict) -> None:
+    html, match, data = load_data()
+    data["meetings"] = [m for m in data["meetings"] if m["id"] != meeting["id"]]
+    data["meetings"].append(meeting)
+    save_data(html, match, data)
+
+
 def main() -> None:
-    ap = argparse.ArgumentParser(description="Score presser-vs-minutes divergence.")
+    ap = argparse.ArgumentParser(description="Pair and classify presser vs. minutes.")
     ap.add_argument("--presser", required=True, type=Path)
     ap.add_argument("--minutes", required=True, type=Path)
     ap.add_argument("--id", required=True, help="meeting id, e.g. 2026-09")
@@ -213,15 +240,16 @@ def main() -> None:
     ap.add_argument("--runs", type=int, default=N_RUNS)
     args = ap.parse_args()
 
-    result = score_meeting(
+    result = classify_meeting(
         args.presser.read_text(encoding="utf-8"),
         args.minutes.read_text(encoding="utf-8"),
         n_runs=args.runs,
     )
     inject({"id": args.id, "label": args.label, "date": args.date, "status": "scored", **result})
-    lo, hi = result["basis_range"]
-    print(f"{args.label}: basis {result['basis']} bp (range {lo}-{hi}, {result['runs']} runs) "
-          f"- {result['verdict']} - index.html updated")
+    k = result["counts"]
+    print(f"{args.label}: {k['CONTRADICTION']} contradiction, {k['ATTRIBUTION']} attribution, "
+          f"{k['EMPHASIS']} emphasis, {k['CONSISTENT']} consistent "
+          f"(contradiction in {result['contradiction_runs']}/{result['runs']} runs) - index.html updated")
 
 
 if __name__ == "__main__":
