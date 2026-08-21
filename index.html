@@ -370,7 +370,9 @@ footer b{color:var(--ink)}
   var data = JSON.parse(document.getElementById('meeting-data').textContent);
   var scored = data.meetings.filter(function(m){ return m.status==='scored'; })
                  .sort(function(a,b){ return a.id < b.id ? -1 : 1; });   // oldest first
-  function plural(n, w){ return n + ' ' + w + (n===1 ? '' : 's'); }
+  var FORMS = {contradiction:['contradiction','contradictions'], 'attribution gap':['attribution gap','attribution gaps'],
+               'difference of emphasis':['difference of emphasis','differences of emphasis'], meeting:['meeting','meetings']};
+  function plural(n, w){ var f = FORMS[w] || [w, w+'s']; return n + ' ' + (n===1 ? f[0] : f[1]); }
   function short(label){ return label.replace(' FOMC',''); }
 
   /* ---- chart 1: the market test ---- */
