@@ -17,18 +17,29 @@ from __future__ import annotations
 
 import csv
 import io
+import time
 from datetime import date, timedelta
 
 import requests
 
-FRED_CSV = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={series}"
+FRED_CSV = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={series}&cosd={start}"
+START = "2026-01-01"   # the Warsh era; keeps the CSV small
 SERIES = "DGS2"
 UA = {"User-Agent": "fade-the-presser/1.0 (FOMC communication tracker)"}
 
 
-def load_series(series: str = SERIES) -> dict[date, float]:
-    r = requests.get(FRED_CSV.format(series=series), headers=UA, timeout=60)
-    r.raise_for_status()
+def load_series(series: str = SERIES, start: str = START) -> dict[date, float]:
+    last_err: Exception | None = None
+    for attempt in range(3):
+        try:
+            r = requests.get(FRED_CSV.format(series=series, start=start), headers=UA, timeout=(15, 90))
+            r.raise_for_status()
+            break
+        except requests.RequestException as e:       # FRED is slow from CI runners at times
+            last_err = e
+            time.sleep(5 * (attempt + 1))
+    else:
+        raise RuntimeError(f"FRED fetch failed after 3 attempts: {last_err}")
     out: dict[date, float] = {}
     for row in csv.DictReader(io.StringIO(r.text)):
         val = row.get(series) or row.get("value") or ""

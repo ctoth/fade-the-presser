@@ -178,7 +178,10 @@ def main() -> None:
               f"(contradiction in {result['contradiction_runs']}/{result['runs']} runs)")
         new += 1
 
-    refresh_market(releases)
+    try:
+        refresh_market(releases)
+    except Exception as e:                # never lose a classified meeting to a market-data hiccup
+        print(f"market refresh skipped this run: {e}")
     print("done — new meetings classified:" if new else "done — nothing new.", new or "")
 
 
