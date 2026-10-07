@@ -169,10 +169,95 @@ footer b{color:var(--ink)}
  "meetings": [
   {
    "id": "2026-09",
+   "code": "20260916",
    "label": "September 2026 FOMC",
-   "date": "Sept 16–17, 2026",
-   "status": "pending",
-   "summary": "The presser lands T+0; the minutes land T+21. The ledger will do the rest."
+   "date": "Ended Sep 16, 2026",
+   "decision_date": "2026-09-16",
+   "minutes_released": "2026-10-07",
+   "status": "scored",
+   "counts": {
+    "CONTRADICTION": 0,
+    "ATTRIBUTION": 2,
+    "EMPHASIS": 3,
+    "CONSISTENT": 1
+   },
+   "runs": 2,
+   "contradiction_runs": 0,
+   "decision": "HIKE +25",
+   "rate": "3.75-4.00%",
+   "dissents": "none (12-0)",
+   "inflation": "Elevated; total PCE near mid-3s, risks skewed to the upside",
+   "summary": "The Committee raised the target range by a quarter point on an unanimous vote, citing elevated inflation alongside a solid economy and a labor market near full employment, and both accounts agree squarely on the decision and its headline rationale. The accounts diverge on texture: the Chair told reporters his view that conditions are not restrictive was widely shared, while the minutes record only a meaningful bloc saying the policy rate is not or only mildly restrictive, and he declined to convey that most participants expected a further increase by year end. He also presented the lower inflation readings produced by a forthcoming statistical methodology change without flagging the higher current-basis estimates the staff reported.",
+   "claims": [
+    {
+     "topic": "Inflation readings",
+     "question": "How high is inflation right now?",
+     "presser_quote": "the 12-month change in total PCE prices likely was around 3.6 percent in August ... Core PCE and CPI prices are running at about 3.2 and 2.4 percent",
+     "presser_gist": "The Chair gave headline and core inflation estimates in the mid-threes and low threes.",
+     "minutes_quote": "Core PCE price inflation, which excludes changes in consumer energy prices and many consumer food prices, was estimated to have remained at 3.4 percent in August ... Under the new methodology that the Bureau of Economic Analysis (BEA) had announced would be implemented at the end of September, the staff estimated that total inflation would be 3.6 percent in August, with core inflation at 3.2 percent.",
+     "minutes_gist": "Staff put current-basis inflation higher, with the lower figures the Chair cited reflecting a methodology change not yet in effect.",
+     "kind": "EMPHASIS",
+     "note": "Same underlying estimates, but the Chair led with the <b>lower revised-basis</b> numbers without noting the current-basis readings were higher."
+    },
+    {
+     "topic": "Restrictiveness",
+     "question": "Is policy restrictive?",
+     "presser_quote": "What I heard around the table in the last couple of days is, my colleagues were hard pressed to describe it that way, too.",
+     "presser_gist": "The Chair said his colleagues broadly shared his view that conditions are not restrictive.",
+     "minutes_quote": "Many participants commented that, despite the recent rise in longer-term Treasury yields, financial conditions appeared to be supportive of economic growth ... Several participants stated that they viewed the current policy rate as not restrictive or only mildly restrictive.",
+     "minutes_gist": "A strong majority saw financial conditions as supportive, but only a meaningful bloc said the policy rate itself was not restrictive.",
+     "kind": "ATTRIBUTION",
+     "note": "The Chair generalizes to the table a judgment on the policy rate that the minutes attribute to <b>several</b> participants rather than a consensus."
+    },
+    {
+     "topic": "Future path",
+     "question": "Will more hikes follow?",
+     "presser_quote": "I’m not in the forward guidance business ... I’m not going to prejudge any future decisions we make.",
+     "presser_gist": "The Chair refused to signal anything about the path beyond this meeting.",
+     "minutes_quote": "most participants assessed that another increase in the target range for the federal funds rate would likely be appropriate by year end. Participants emphasized, however, that they approached each meeting with an open mind",
+     "minutes_gist": "A consensus of participants expected a further increase before year end, while stressing meeting-by-meeting judgment.",
+     "kind": "ATTRIBUTION",
+     "note": "The minutes record a <b>majority</b> leaning toward another hike that the Chair treated as nothing more than individual dots."
+    },
+    {
+     "topic": "Economic strength",
+     "question": "Has the economy strengthened since July?",
+     "presser_quote": "There’s been a pretty wide-ranging set of data, including in the labor markets, that the economy has strengthened ... It’s a judgment that I have, and the Committee has.",
+     "presser_gist": "The Chair said he and the Committee judge the economy to have strengthened.",
+     "minutes_quote": "A majority of participants assessed that the labor market had strengthened a bit recently, pointing to developments such as employment gains modestly outpacing labor force growth ... Several participants commented that the underlying momentum in the economy appeared to have increased.",
+     "minutes_gist": "A majority saw modest labor market strengthening, and a smaller group saw greater underlying momentum.",
+     "kind": "EMPHASIS",
+     "note": "Direction agrees, but the minutes record a qualified majority view on the labor market and a narrower bloc on broader momentum than the Chair's flat Committee judgment."
+    },
+    {
+     "topic": "Neutral rate",
+     "question": "Does the neutral rate guide decisions?",
+     "presser_quote": "Do I think it has any operational effect on decisions that we make today?  No, I don’t.",
+     "presser_gist": "The Chair said the neutral rate is an academic concept with no operational role in the decision.",
+     "minutes_quote": "A couple of participants remarked on having increased their estimate of the neutral federal funds rate and thus their view of the appropriate setting of the target range for the federal funds rate.",
+     "minutes_gist": "A small number of participants explicitly tied a higher neutral rate estimate to a higher appropriate policy setting.",
+     "kind": "EMPHASIS",
+     "note": "The Chair dismisses the concept's operational use while the minutes show a small group reasoning directly from it, a minority the Chair did not acknowledge."
+    },
+    {
+     "topic": "Labor mandate",
+     "question": "Must the job market weaken to curb inflation?",
+     "presser_quote": "we believe that the unemployment rate is basically running consistent with full employment ... I don’t believe that we need to do harm to the labor markets to achieve our objective.",
+     "presser_gist": "The Chair said the labor market is at full employment and need not be damaged to restore price stability.",
+     "minutes_quote": "Participants judged that labor market conditions were stable and generally viewed the labor market as close to maximum employment ... Participants generally viewed the upside and downside risks to the labor market as broadly balanced.",
+     "minutes_gist": "Participants saw a stable labor market near maximum employment with balanced risks.",
+     "kind": "CONSISTENT",
+     "note": "Both accounts place the labor market at or near maximum employment with risks balanced, framing the hike as aimed solely at inflation."
+    }
+   ],
+   "market": {
+    "series": "UST 2-year par yield",
+    "decision_date": "2026-09-16",
+    "decision_chg_bp": 7,
+    "minutes_date": "2026-10-07",
+    "minutes_chg_bp": null,
+    "faded": null
+   }
   },
   {
    "id": "2026-07",
